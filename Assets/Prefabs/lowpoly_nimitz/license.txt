@@ -1,0 +1,11 @@
+Model Information:
+* title:	Low-poly Uss nimitz
+* source:	https://sketchfab.com/3d-models/low-poly-uss-nimitz-acc8e2ab9cff4f6aa41c7f6db5e59abb
+* author:	SIpriv (https://sketchfab.com/S1Priv)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Low-poly Uss nimitz" (https://sketchfab.com/3d-models/low-poly-uss-nimitz-acc8e2ab9cff4f6aa41c7f6db5e59abb) by SIpriv (https://sketchfab.com/S1Priv) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
