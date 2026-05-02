@@ -1,10 +1,14 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TorpedoImpact : MonoBehaviour
 {
     [Header("Explosion")]
     [SerializeField] private GameObject explosionPrefab;
-    [SerializeField] private AudioSource explosionAudio;
+
+    [Header("Sound")]
+    [SerializeField] private Vector3 cameraPosition;
+    [SerializeField] private AudioClip explosionSound;
+    [SerializeField] private float volume = 1f;
 
     [Header("Filtering")]
     [SerializeField] private string targetTag = "Ship";
@@ -19,15 +23,36 @@ public class TorpedoImpact : MonoBehaviour
         if (!other.CompareTag(targetTag))
             return;
 
-        Vector3 hitPoint = GetClosestPoint(other);
-
-        TriggerExplosion(hitPoint);
-    }
-
-    private void TriggerExplosion(Vector3 position)
-    {
         hasExploded = true;
 
+        Vector3 hitPoint = other.ClosestPoint(transform.position);
+
+        TriggerImpact(hitPoint);
+    }
+
+    private void PlayExplosionSound(Vector3 position)
+    {
+        GameObject audioObj = new GameObject("ExplosionSound");
+        audioObj.transform.position = position;
+
+        AudioSource source = audioObj.AddComponent<AudioSource>();
+        source.clip = explosionSound;
+        source.volume = volume;
+
+        // Important: make it 2D while testing.
+        source.spatialBlend = 0f;
+
+        source.playOnAwake = false;
+        source.loop = false;
+
+        source.Play();
+
+        Destroy(audioObj, explosionSound.length + 0.25f);
+    }
+
+    private void TriggerImpact(Vector3 position)
+    {
+        // 💥 Spawn explosion
         if (explosionPrefab != null)
         {
             GameObject explosion = Instantiate(explosionPrefab, position, Quaternion.identity);
@@ -44,17 +69,16 @@ public class TorpedoImpact : MonoBehaviour
             }
         }
 
-        if (explosionAudio != null)
+        // 🔊 Play sound
+        if (explosionSound != null)
         {
-            explosionAudio.Play();
+            // AudioSource.PlayClipAtPoint(explosionSound, position, volume);
+            // AudioSource.PlayClipAtPoint(explosionSound, cameraPosition, volume);
+            PlayExplosionSound(cameraPosition);
+
+            Debug.Log("Played explosion sound at camera position: " + cameraPosition);
         }
 
         Destroy(gameObject); // destroy torpedo
-    }
-
-    private Vector3 GetClosestPoint(Collider other)
-    {
-        // More accurate than transform.position for triggers
-        return other.ClosestPoint(transform.position);
     }
 }
