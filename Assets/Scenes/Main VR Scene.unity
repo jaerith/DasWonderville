@@ -526,6 +526,7 @@ GameObject:
   - component: {fileID: 554702725}
   - component: {fileID: 554702726}
   - component: {fileID: 554702727}
+  - component: {fileID: 554702728}
   m_Layer: 0
   m_Name: Bismarck02
   m_TagString: Ship
@@ -542,7 +543,7 @@ Transform:
   m_GameObject: {fileID: 554702724}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.3941453, z: -0, w: 0.9190482}
-  m_LocalPosition: {x: 318.4, y: 0.38, z: -225.5}
+  m_LocalPosition: {x: 344.9, y: 0.38, z: -250.7}
   m_LocalScale: {x: 0.5431969, y: 0.5431969, z: 0.5431969}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -597,6 +598,26 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &554702728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 554702724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aec3859ece37c3447bf70e8b4a2bf256, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShipMover
+  useLocalBow: 1
+  worldBowDirection: {x: 0, y: 0, z: 1}
+  forwardSpeed: 1
+  lateralDriftSpeed: 0.25
+  driftDirection: 0.2
+  addDriftNoise: 1
+  driftNoiseStrength: 0.1
+  driftNoiseSpeed: 0.5
 --- !u!1 &581240648
 GameObject:
   m_ObjectHideFlags: 0
@@ -1573,7 +1594,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2115662365441721597, guid: 44532cf2e7de61b45b869c43bb89a65b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.85
+      value: 0.8499985
       objectReference: {fileID: 0}
     - target: {fileID: 2115662365441721597, guid: 44532cf2e7de61b45b869c43bb89a65b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1937,6 +1958,7 @@ GameObject:
   - component: {fileID: 1216325481}
   - component: {fileID: 1216325482}
   - component: {fileID: 1216325483}
+  - component: {fileID: 1216325484}
   m_Layer: 0
   m_Name: Nimitz01
   m_TagString: Ship
@@ -2008,6 +2030,26 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1216325484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216325480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aec3859ece37c3447bf70e8b4a2bf256, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShipMover
+  useLocalBow: 1
+  worldBowDirection: {x: 0, y: 0, z: 1}
+  forwardSpeed: 0.5
+  lateralDriftSpeed: 0.25
+  driftDirection: 0.2
+  addDriftNoise: 1
+  driftNoiseStrength: 0.1
+  driftNoiseSpeed: 0.5
 --- !u!1001 &1229241826
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2081,6 +2123,7 @@ GameObject:
   - component: {fileID: 1268936007}
   - component: {fileID: 1268936008}
   - component: {fileID: 1268936009}
+  - component: {fileID: 1268936010}
   m_Layer: 0
   m_Name: Bismarck01
   m_TagString: Ship
@@ -2152,6 +2195,26 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1268936010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268936006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aec3859ece37c3447bf70e8b4a2bf256, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShipMover
+  useLocalBow: 1
+  worldBowDirection: {x: 0, y: 0, z: 1}
+  forwardSpeed: 1
+  lateralDriftSpeed: 0.25
+  driftDirection: 0.2
+  addDriftNoise: 1
+  driftNoiseStrength: 0.1
+  driftNoiseSpeed: 0.5
 --- !u!1 &1282137370
 GameObject:
   m_ObjectHideFlags: 0
@@ -2325,7 +2388,7 @@ Transform:
   m_GameObject: {fileID: 1509819621}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -353.752, y: 0, z: 205.93057}
+  m_LocalPosition: {x: -327.052, y: 0, z: 126.799995}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3034,7 +3097,7 @@ Transform:
   m_GameObject: {fileID: 1976267233}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 32.5, y: 0.13, z: 0}
+  m_LocalPosition: {x: 83.8, y: 0.13, z: -90.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
