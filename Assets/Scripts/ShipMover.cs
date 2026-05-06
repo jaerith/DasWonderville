@@ -75,5 +75,13 @@ public class ShipMover : MonoBehaviour
             lateralDir * drift * lateralDriftSpeed;
 
         transform.position += movement * Time.deltaTime;
+
+        // Gentle turning drift
+        // transform.Rotate(0f, drift * 10f * Time.deltaTime, 0f);
+        transform.Rotate(0f, drift * Time.deltaTime, 0f);
+
+        // Gentle bobbing
+        float bob = Mathf.Sin(Time.time * 1.5f) * 0.03f;
+        transform.position += Vector3.up * bob * Time.deltaTime;
     }
 }

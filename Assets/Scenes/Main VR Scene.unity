@@ -527,6 +527,7 @@ GameObject:
   - component: {fileID: 554702726}
   - component: {fileID: 554702727}
   - component: {fileID: 554702728}
+  - component: {fileID: 554702729}
   m_Layer: 0
   m_Name: Bismarck02
   m_TagString: Ship
@@ -618,6 +619,26 @@ MonoBehaviour:
   addDriftNoise: 1
   driftNoiseStrength: 0.1
   driftNoiseSpeed: 0.5
+--- !u!114 &554702729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 554702724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30bbd2c1ef999f24c9cedd45269c360d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShipHitReaction
+  smokePrefab: {fileID: 7062591233549464571, guid: cda8d4ec59d313e43902daec9fb7312f, type: 3}
+  hitSound: {fileID: 8300000, guid: 44cab3e2bd6654f459c26e86616af88f, type: 3}
+  hitVolume: 1
+  hitsBeforeSinking: 2
+  sinkDistance: 300
+  sinkSpeed: 0.1
+  rotateWhileSinking: 1
+  sinkingRotationPerSecond: {x: 0, y: 0, z: 0.25}
 --- !u!1 &581240648
 GameObject:
   m_ObjectHideFlags: 0
@@ -1959,6 +1980,7 @@ GameObject:
   - component: {fileID: 1216325482}
   - component: {fileID: 1216325483}
   - component: {fileID: 1216325484}
+  - component: {fileID: 1216325485}
   m_Layer: 0
   m_Name: Nimitz01
   m_TagString: Ship
@@ -2050,6 +2072,26 @@ MonoBehaviour:
   addDriftNoise: 1
   driftNoiseStrength: 0.1
   driftNoiseSpeed: 0.5
+--- !u!114 &1216325485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216325480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30bbd2c1ef999f24c9cedd45269c360d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShipHitReaction
+  smokePrefab: {fileID: 7062591233549464571, guid: cda8d4ec59d313e43902daec9fb7312f, type: 3}
+  hitSound: {fileID: 8300000, guid: 44cab3e2bd6654f459c26e86616af88f, type: 3}
+  hitVolume: 1
+  hitsBeforeSinking: 2
+  sinkDistance: 300
+  sinkSpeed: 0.1
+  rotateWhileSinking: 1
+  sinkingRotationPerSecond: {x: 0, y: 0, z: 0.1}
 --- !u!1001 &1229241826
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2124,6 +2166,7 @@ GameObject:
   - component: {fileID: 1268936008}
   - component: {fileID: 1268936009}
   - component: {fileID: 1268936010}
+  - component: {fileID: 1268936011}
   m_Layer: 0
   m_Name: Bismarck01
   m_TagString: Ship
@@ -2215,6 +2258,26 @@ MonoBehaviour:
   addDriftNoise: 1
   driftNoiseStrength: 0.1
   driftNoiseSpeed: 0.5
+--- !u!114 &1268936011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268936006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30bbd2c1ef999f24c9cedd45269c360d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShipHitReaction
+  smokePrefab: {fileID: 7062591233549464571, guid: cda8d4ec59d313e43902daec9fb7312f, type: 3}
+  hitSound: {fileID: 8300000, guid: 44cab3e2bd6654f459c26e86616af88f, type: 3}
+  hitVolume: 1
+  hitsBeforeSinking: 2
+  sinkDistance: 300
+  sinkSpeed: 0.1
+  rotateWhileSinking: 1
+  sinkingRotationPerSecond: {x: 0, y: 0, z: 0.25}
 --- !u!1 &1282137370
 GameObject:
   m_ObjectHideFlags: 0

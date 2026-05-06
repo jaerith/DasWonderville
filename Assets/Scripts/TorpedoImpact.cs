@@ -15,6 +15,7 @@ public class TorpedoImpact : MonoBehaviour
 
     private bool hasExploded = false;
 
+    /*
     private void OnTriggerEnter(Collider other)
     {
         if (hasExploded)
@@ -29,7 +30,30 @@ public class TorpedoImpact : MonoBehaviour
 
         TriggerImpact(hitPoint);
     }
+    */
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (hasExploded)
+            return;
+
+        if (!other.CompareTag(targetTag))
+            return;
+
+        hasExploded = true;
+
+        Vector3 hitPoint = other.ClosestPoint(transform.position);
+
+        ShipHitReaction ship = other.GetComponentInParent<ShipHitReaction>();
+        if (ship != null)
+        {
+            ship.RegisterHit(hitPoint);
+        }
+
+        Destroy(gameObject);
+    }
+
+    /*
     private void PlayExplosionSound(Vector3 position)
     {
         GameObject audioObj = new GameObject("ExplosionSound");
@@ -81,4 +105,5 @@ public class TorpedoImpact : MonoBehaviour
 
         Destroy(gameObject); // destroy torpedo
     }
+    */
 }
