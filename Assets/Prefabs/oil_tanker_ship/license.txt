@@ -1,0 +1,11 @@
+Model Information:
+* title:	Oil Tank Tanker Ship
+* source:	https://sketchfab.com/3d-models/oil-tank-tanker-ship-7995ecbf4f7f4b579f197d59ae176506
+* author:	Nikoleta.Zhecheva (https://sketchfab.com/Nikoleta.Zhecheva)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Oil Tank Tanker Ship" (https://sketchfab.com/3d-models/oil-tank-tanker-ship-7995ecbf4f7f4b579f197d59ae176506) by Nikoleta.Zhecheva (https://sketchfab.com/Nikoleta.Zhecheva) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
