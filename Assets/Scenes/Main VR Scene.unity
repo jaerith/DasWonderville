@@ -644,8 +644,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShipHitReaction
   smokePrefab: {fileID: 7062591233549464571, guid: cda8d4ec59d313e43902daec9fb7312f, type: 3}
+  explosionPrefab: {fileID: 0}
   hitSound: {fileID: 8300000, guid: 44cab3e2bd6654f459c26e86616af88f, type: 3}
   hitVolume: 1
+  nearbySiblingDetectionDistance: 25
+  logNearbySiblings: 1
   hitsBeforeSinking: 2
   sinkDistance: 300
   sinkSpeed: 0.1
@@ -1793,14 +1796,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1160265426}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.36062732, z: -0, w: 0.93271}
-  m_LocalPosition: {x: 251.03754, y: 0, z: -130.00357}
+  m_LocalRotation: {x: -0, y: 0.42910773, z: -0, w: 0.9032534}
+  m_LocalPosition: {x: 253.08707, y: 0, z: -143.70793}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 559338490}
   m_Father: {fileID: 1509819622}
-  m_LocalEulerAnglesHint: {x: 0, y: 42.277, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 50.822, z: 0}
 --- !u!114 &1160265428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1814,8 +1817,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShipHitReaction
   smokePrefab: {fileID: 7062591233549464571, guid: cda8d4ec59d313e43902daec9fb7312f, type: 3}
+  explosionPrefab: {fileID: 2468980003719164987, guid: 71c6df59c57d9b445a4574c723838d33, type: 3}
   hitSound: {fileID: 8300000, guid: 44cab3e2bd6654f459c26e86616af88f, type: 3}
   hitVolume: 1
+  nearbySiblingDetectionDistance: 200
+  logNearbySiblings: 1
   hitsBeforeSinking: 2
   sinkDistance: 300
   sinkSpeed: 0.1
@@ -2295,8 +2301,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShipHitReaction
   smokePrefab: {fileID: 7062591233549464571, guid: cda8d4ec59d313e43902daec9fb7312f, type: 3}
+  explosionPrefab: {fileID: 0}
   hitSound: {fileID: 8300000, guid: 44cab3e2bd6654f459c26e86616af88f, type: 3}
   hitVolume: 1
+  nearbySiblingDetectionDistance: 25
+  logNearbySiblings: 1
   hitsBeforeSinking: 2
   sinkDistance: 300
   sinkSpeed: 0.1
@@ -2481,8 +2490,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShipHitReaction
   smokePrefab: {fileID: 7062591233549464571, guid: cda8d4ec59d313e43902daec9fb7312f, type: 3}
+  explosionPrefab: {fileID: 0}
   hitSound: {fileID: 8300000, guid: 44cab3e2bd6654f459c26e86616af88f, type: 3}
   hitVolume: 1
+  nearbySiblingDetectionDistance: 25
+  logNearbySiblings: 1
   hitsBeforeSinking: 2
   sinkDistance: 300
   sinkSpeed: 0.1

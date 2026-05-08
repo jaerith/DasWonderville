@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class ShipHitReaction : MonoBehaviour
 {
     [Header("Impact Effects")]
     [SerializeField] private GameObject smokePrefab;
+    [SerializeField] private GameObject explosionPrefab;
     [SerializeField] private AudioClip hitSound;
     [SerializeField] private float hitVolume = 1f;
+
+    [Header("Nearby Sibling Detection")]
+    [SerializeField] private float nearbySiblingDetectionDistance = 25f;
+    [SerializeField] private bool logNearbySiblings = true;
 
     [Header("Sinking")]
     [SerializeField] private int hitsBeforeSinking = 2;
@@ -16,8 +20,8 @@ public class ShipHitReaction : MonoBehaviour
     [SerializeField] private bool rotateWhileSinking = true;
     [SerializeField] private Vector3 sinkingRotationPerSecond = new Vector3(0f, 0f, 5f);
 
-    private int hitCount = 0;
-    private bool isSinking = false;
+    private int hitCount;
+    private bool isSinking;
 
     public void RegisterHit(Vector3 hitPosition)
     {
@@ -26,12 +30,17 @@ public class ShipHitReaction : MonoBehaviour
 
         hitCount++;
 
-        SpawnSmoke(hitPosition);
         PlayHitSound(hitPosition);
 
         if (hitCount >= hitsBeforeSinking)
         {
+            SpawnExplosion(hitPosition);
+            DetectNearbySiblingObjects();
             StartCoroutine(SinkAndDestroy());
+        }
+        else
+        {
+            SpawnSmoke(hitPosition);
         }
     }
 
@@ -43,39 +52,27 @@ public class ShipHitReaction : MonoBehaviour
         Instantiate(smokePrefab, position, Quaternion.identity);
     }
 
-    /*
-    private void TriggerImpact(Vector3 position)
+    private void SpawnExplosion(Vector3 position)
     {
-        // 💥 Spawn explosion
-        if (explosionPrefab != null)
+        if (explosionPrefab == null)
         {
-            GameObject explosion = Instantiate(explosionPrefab, position, Quaternion.identity);
-
-            var ps = explosion.GetComponent<ParticleSystem>();
-            if (ps != null)
-            {
-                ps.Play();
-                Destroy(explosion, ps.main.duration + ps.main.startLifetime.constantMax);
-            }
-            else
-            {
-                Destroy(explosion, 2f);
-            }
+            SpawnSmoke(position);
+            return;
         }
 
-        // 🔊 Play sound
-        if (explosionSound != null)
+        GameObject explosion = Instantiate(explosionPrefab, position, Quaternion.identity);
+
+        ParticleSystem ps = explosion.GetComponent<ParticleSystem>();
+        if (ps != null)
         {
-            // AudioSource.PlayClipAtPoint(explosionSound, position, volume);
-            // AudioSource.PlayClipAtPoint(explosionSound, cameraPosition, volume);
-            PlayExplosionSound(cameraPosition);
-
-            Debug.Log("Played explosion sound at camera position: " + cameraPosition);
+            ps.Play();
+            Destroy(explosion, ps.main.duration + ps.main.startLifetime.constantMax);
         }
-
-        Destroy(gameObject); // destroy torpedo
+        else
+        {
+            Destroy(explosion, 3f);
+        }
     }
-    */
 
     private void PlayHitSound(Vector3 position)
     {
@@ -100,6 +97,39 @@ public class ShipHitReaction : MonoBehaviour
         source.Play();
 
         Destroy(audioObj, hitSound.length + 0.25f);
+    }
+
+    private void DetectNearbySiblingObjects()
+    {
+        Transform parent = transform.parent;
+
+        if (parent == null)
+            return;
+
+        foreach (Transform sibling in parent)
+        {
+            if (sibling == transform)
+                continue;
+
+            float distance = Vector3.Distance(transform.position, sibling.position);
+
+            if (distance <= nearbySiblingDetectionDistance)
+            {
+                if (logNearbySiblings)
+                {
+                    Debug.Log(
+                        $"Nearby sibling detected: {sibling.name}, distance: {distance:F2}",
+                        sibling.gameObject
+                    );
+                }
+
+                sibling.SendMessage(
+                    "OnNearbyShipExplosion",
+                    transform,
+                    SendMessageOptions.DontRequireReceiver
+                );
+            }
+        }
     }
 
     private IEnumerator SinkAndDestroy()
