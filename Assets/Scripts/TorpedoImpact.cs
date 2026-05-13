@@ -40,6 +40,12 @@ public class TorpedoImpact : MonoBehaviour
         if (!other.CompareTag(targetTag))
             return;
 
+        if (Random.Range(0f, 1f) < 0.5f)
+        {
+            Debug.Log("Torpedo hit detected but ignored due to random chance.");
+            Destroy(gameObject);
+        }
+
         hasExploded = true;
 
         Vector3 hitPoint = other.ClosestPoint(transform.position);

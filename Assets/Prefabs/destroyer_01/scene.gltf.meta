@@ -1,0 +1,73 @@
+fileFormatVersion: 2
+guid: 66ac44b8277852440b9c5b303e4502e3
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 715df9372183c47e389bb6e19fbc3b52, type: 3}
+  editorImportSettings:
+    generateSecondaryUVSet: 0
+  importSettings:
+    nodeNameMethod: 1
+    animationMethod: 2
+    generateMipMaps: 1
+    texturesReadable: 0
+    defaultMinFilterMode: 9729
+    defaultMagFilterMode: 9729
+    anisotropicFilterLevel: 1
+  instantiationSettings:
+    mask: -1
+    layer: 0
+    skinUpdateWhenOffscreen: 1
+    lightIntensityFactor: 1
+    sceneObjectCreation: 2
+  assetDependencies:
+  - type: 0
+    originalUri: Assets\Prefabs\destroyer_01\scene.bin
+    assetPath: Assets\Prefabs\destroyer_01\scene.bin
+  - type: 1
+    originalUri: Assets\Prefabs\destroyer_01\textures\CIWS_baseColor.png
+    assetPath: Assets\Prefabs\destroyer_01\textures\CIWS_baseColor.png
+  - type: 1
+    originalUri: Assets\Prefabs\destroyer_01\textures\CIWS_metallicRoughness.png
+    assetPath: Assets\Prefabs\destroyer_01\textures\CIWS_metallicRoughness.png
+  - type: 1
+    originalUri: Assets\Prefabs\destroyer_01\textures\CIWS_normal.png
+    assetPath: Assets\Prefabs\destroyer_01\textures\CIWS_normal.png
+  - type: 1
+    originalUri: Assets\Prefabs\destroyer_01\textures\DDG112_baseColor.png
+    assetPath: Assets\Prefabs\destroyer_01\textures\DDG112_baseColor.png
+  - type: 1
+    originalUri: Assets\Prefabs\destroyer_01\textures\DDG112_metallicRoughness.png
+    assetPath: Assets\Prefabs\destroyer_01\textures\DDG112_metallicRoughness.png
+  - type: 1
+    originalUri: Assets\Prefabs\destroyer_01\textures\DDG112_normal.png
+    assetPath: Assets\Prefabs\destroyer_01\textures\DDG112_normal.png
+  - type: 1
+    originalUri: Assets\Prefabs\destroyer_01\textures\mk38_baseColor.png
+    assetPath: Assets\Prefabs\destroyer_01\textures\mk38_baseColor.png
+  - type: 1
+    originalUri: Assets\Prefabs\destroyer_01\textures\mk38_metallicRoughness.png
+    assetPath: Assets\Prefabs\destroyer_01\textures\mk38_metallicRoughness.png
+  - type: 1
+    originalUri: Assets\Prefabs\destroyer_01\textures\mk38_normal.png
+    assetPath: Assets\Prefabs\destroyer_01\textures\mk38_normal.png
+  - type: 1
+    originalUri: Assets\Prefabs\destroyer_01\textures\RHIB.001_baseColor.png
+    assetPath: Assets\Prefabs\destroyer_01\textures\RHIB.001_baseColor.png
+  - type: 1
+    originalUri: Assets\Prefabs\destroyer_01\textures\RHIB.001_normal.png
+    assetPath: Assets\Prefabs\destroyer_01\textures\RHIB.001_normal.png
+  - type: 1
+    originalUri: Assets\Prefabs\destroyer_01\textures\spg62_baseColor.png
+    assetPath: Assets\Prefabs\destroyer_01\textures\spg62_baseColor.png
+  - type: 1
+    originalUri: Assets\Prefabs\destroyer_01\textures\spg62_metallicRoughness.png
+    assetPath: Assets\Prefabs\destroyer_01\textures\spg62_metallicRoughness.png
+  - type: 1
+    originalUri: Assets\Prefabs\destroyer_01\textures\spg62_normal.png
+    assetPath: Assets\Prefabs\destroyer_01\textures\spg62_normal.png
+  reportItems: []

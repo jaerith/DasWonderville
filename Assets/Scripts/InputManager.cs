@@ -1,14 +1,24 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 public class InputManager : MonoBehaviour
 {
     [Header("Input")]
     [SerializeField] private InputActionProperty fireAction;
+    [SerializeField] private InputActionProperty moveAction;
 
     [Header("References")]
     [SerializeField] private GameObject torpedoPrefab;
-    [SerializeField] private Transform viewer; // XR Main Camera
+    [SerializeField] private Transform viewer;
+    [SerializeField] private Transform playerRoot;
+
+    [Header("Player Movement")]
+    [SerializeField] private float moveSpeed = 2.5f;
+
+    [Header("Torpedo Limit")]
+    [SerializeField] private int maxTorpedoesPerWindow = 2;
+    [SerializeField] private float fireWindowSeconds = 15f;
 
     [Header("Spawn Settings")]
     [SerializeField] private float launchDistanceInFront = 0.75f;
@@ -22,8 +32,47 @@ public class InputManager : MonoBehaviour
     [SerializeField] private float maxDistance = 50f;
 
     private bool wasPressed;
+    private readonly Queue<float> fireTimes = new Queue<float>();
+
+    private void OnEnable()
+    {
+        fireAction.action?.Enable();
+        moveAction.action?.Enable();
+    }
+
+    private void OnDisable()
+    {
+        fireAction.action?.Disable();
+        moveAction.action?.Disable();
+    }
 
     private void Update()
+    {
+        HandleMovement();
+        HandleFireInput();
+    }
+
+    private void HandleMovement()
+    {
+        if (moveAction.action == null || playerRoot == null || viewer == null)
+            return;
+
+        Vector2 input = moveAction.action.ReadValue<Vector2>();
+
+        Vector3 forward = viewer.forward;
+        Vector3 right = viewer.right;
+
+        forward.y = 0f;
+        right.y = 0f;
+
+        forward.Normalize();
+        right.Normalize();
+
+        Vector3 movement = forward * input.y + right * input.x;
+        playerRoot.position += movement * moveSpeed * Time.deltaTime;
+    }
+
+    private void HandleFireInput()
     {
         float value = fireAction.action != null
             ? fireAction.action.ReadValue<float>()
@@ -32,9 +81,28 @@ public class InputManager : MonoBehaviour
         bool isPressed = value > 0f;
 
         if (isPressed && !wasPressed)
-            FireTorpedo();
+        {
+            if (CanFireTorpedo())
+                FireTorpedo();
+            else
+                Debug.Log("Torpedo reload window active.");
+        }
 
         wasPressed = isPressed;
+    }
+
+    private bool CanFireTorpedo()
+    {
+        float now = Time.time;
+
+        while (fireTimes.Count > 0 && now - fireTimes.Peek() > fireWindowSeconds)
+            fireTimes.Dequeue();
+
+        if (fireTimes.Count >= maxTorpedoesPerWindow)
+            return false;
+
+        fireTimes.Enqueue(now);
+        return true;
     }
 
     private void FireTorpedo()
@@ -59,9 +127,7 @@ public class InputManager : MonoBehaviour
             Vector3.up * spawnYOffset;
 
         Quaternion baseRotation = Quaternion.LookRotation(flatForward, Vector3.up);
-
-        Quaternion spawnRotation =
-            baseRotation * Quaternion.Euler(launchRotationOffsetEuler);
+        Quaternion spawnRotation = baseRotation * Quaternion.Euler(launchRotationOffsetEuler);
 
         GameObject torpedo = Instantiate(torpedoPrefab, spawnPosition, spawnRotation);
 
@@ -70,7 +136,6 @@ public class InputManager : MonoBehaviour
             mover = torpedo.AddComponent<TorpedoMover>();
 
         torpedo.SetActive(true);
-
         mover.Initialize(flatForward, speed, maxDistance);
     }
 }
