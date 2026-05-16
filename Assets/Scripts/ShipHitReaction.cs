@@ -30,6 +30,11 @@ public class ShipHitReaction : MonoBehaviour
 
         hitCount++;
 
+        foreach (EnemyHunterBehavior destroyer in FindObjectsByType<EnemyHunterBehavior>(FindObjectsInactive.Include))
+        {
+            destroyer.OnAnyShipHit(transform);
+        }
+
         PlayHitSound(hitPosition);
 
         if (hitCount >= hitsBeforeSinking)
