@@ -40,7 +40,7 @@ public class TorpedoImpact : MonoBehaviour
         if (!other.CompareTag(targetTag))
             return;
 
-        if (Random.Range(0f, 1f) < 0.5f)
+        if (Random.Range(0f, 1f) < 0.25f)
         {
             Debug.Log("Torpedo hit detected but ignored due to random chance.");
             Destroy(gameObject);

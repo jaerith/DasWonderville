@@ -1,5 +1,8 @@
 using UnityEngine;
 
+using UnityEngine;
+
+[RequireComponent(typeof(Rigidbody))]
 public class EnemyHunterBehavior : MonoBehaviour
 {
     [Header("Normal Movement")]
@@ -15,8 +18,11 @@ public class EnemyHunterBehavior : MonoBehaviour
     [Header("Alert Behavior")]
     [SerializeField] private Transform player;
     [SerializeField] private float pursuitSpeed = 3f;
-    [SerializeField] private bool rotateTowardPlayer = true;
-    [SerializeField] private float rotationSpeed = 90f;
+    [SerializeField] private float stopDistanceFromPlayer = 1.5f;
+    [SerializeField] private float rotationSpeed = 8f;
+
+    [Tooltip("Use this if the destroyer's bow is not aligned with local +Z.")]
+    [SerializeField] private float yawOffsetDegrees = 0f;
 
     [Header("Torpedo Firing")]
     [SerializeField] private GameObject torpedoPrefab;
@@ -25,71 +31,68 @@ public class EnemyHunterBehavior : MonoBehaviour
     [SerializeField] private float torpedoSpeed = 12f;
     [SerializeField] private float torpedoMaxDistance = 100f;
 
+    private Rigidbody rb;
+    private Collider[] ownColliders;
+
     private bool isAlerted;
     private float nextFireTime;
 
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        rb.isKinematic = true;
+        rb.useGravity = false;
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
+        ownColliders = GetComponentsInChildren<Collider>(true);
+    }
+
     private void Update()
     {
+        // Firing is time-based, not physics-based, so it stays in Update.
         if (isAlerted)
-        {
-            MoveTowardPlayer();
             TryFireTorpedo();
-        }
-        else
-        {
-            MoveNormally();
-        }
+    }
+
+    private void FixedUpdate()
+    {
+        MoveNormally();
     }
 
     private void MoveNormally()
     {
-        Vector3 bowDir = useLocalBow
-            ? transform.forward
-            : worldBowDirection.normalized;
+        Quaternion newRot = rb.rotation;
 
-        Vector3 lateralDir = useLocalBow
-            ? transform.right
-            : Vector3.right;
-
-        Vector3 movement =
-            bowDir * forwardSpeed +
-            lateralDir * driftDirection * lateralDriftSpeed;
-
-        transform.position += movement * Time.deltaTime;
-    }
-
-    private void MoveTowardPlayer()
-    {
-        if (player == null)
-            return;
-
-        Vector3 shipPosition = transform.position;
-        Vector3 playerPosition = player.position;
-
-        // Ignore height differences
-        shipPosition.y = 0f;
-        playerPosition.y = 0f;
-
-        Vector3 toPlayer = playerPosition - shipPosition;
-
-        if (toPlayer.sqrMagnitude < 0.001f)
-            return;
-
-        Vector3 direction = toPlayer.normalized;
-
-        // Move in world space toward the player
-        transform.position += direction * pursuitSpeed * Time.deltaTime;
-
-        if (rotateTowardPlayer)
+        if (isAlerted && player != null)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
+            Vector3 toPlayer = player.position - rb.position;
+            toPlayer.y = 0f;
 
-            transform.rotation = Quaternion.RotateTowards(
-                transform.rotation,
-                targetRotation,
-                rotationSpeed * Time.deltaTime
-            );
+            if (toPlayer.sqrMagnitude > 0.0001f)
+            {
+                Quaternion targetRot = Quaternion.LookRotation(toPlayer, Vector3.up);
+                newRot = Quaternion.RotateTowards(rb.rotation, targetRot, rotationSpeed * Time.fixedDeltaTime);
+                rb.MoveRotation(newRot);
+            }
+
+            if (toPlayer.magnitude <= stopDistanceFromPlayer)
+                return;
+
+            Vector3 alertForward = newRot * Vector3.forward;
+            alertForward.y = 0f;
+            alertForward.Normalize();
+            rb.MovePosition(rb.position + alertForward * pursuitSpeed * Time.fixedDeltaTime);
+            return;
         }
+
+        Vector3 bowDir = newRot * Vector3.forward;
+        bowDir.y = 0f;
+        bowDir.Normalize();
+
+        Vector3 lateralDir = newRot * Vector3.right;
+        lateralDir.y = 0f;
+        lateralDir.Normalize();
+
+        rb.MovePosition(rb.position + (bowDir * forwardSpeed + lateralDir * driftDirection * lateralDriftSpeed) * Time.fixedDeltaTime);
     }
 
     private void TryFireTorpedo()
@@ -104,7 +107,10 @@ public class EnemyHunterBehavior : MonoBehaviour
     private void FireTorpedoAtPlayer()
     {
         if (torpedoPrefab == null || player == null)
+        {
+            Debug.LogWarning($"{name}: cannot fire — torpedoPrefab={(torpedoPrefab == null ? "NULL" : "ok")}, player={(player == null ? "NULL" : "ok")}");
             return;
+        }
 
         Vector3 spawnPosition = torpedoSpawnPoint != null
             ? torpedoSpawnPoint.position
@@ -120,13 +126,45 @@ public class EnemyHunterBehavior : MonoBehaviour
 
         Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
 
-        GameObject torpedo = Instantiate(torpedoPrefab, spawnPosition, rotation);
+        GameObject torpedo = Instantiate(
+            torpedoPrefab,
+            spawnPosition,
+            rotation
+        );
 
         TorpedoMover mover = torpedo.GetComponent<TorpedoMover>();
+
         if (mover == null)
             mover = torpedo.AddComponent<TorpedoMover>();
 
         mover.Initialize(direction, torpedoSpeed, torpedoMaxDistance);
+
+        IgnoreCollisionsWithSelf(torpedo);
+    }
+
+    private void IgnoreCollisionsWithSelf(GameObject torpedo)
+    {
+        if (ownColliders == null || ownColliders.Length == 0)
+            return;
+
+        // A torpedo may carry more than one collider (e.g. a hull collider plus a
+        // trigger), so handle every collider on the torpedo against every collider
+        // on this ship.
+        Collider[] torpedoColliders = torpedo.GetComponentsInChildren<Collider>(true);
+
+        foreach (Collider torpedoCollider in torpedoColliders)
+        {
+            if (torpedoCollider == null)
+                continue;
+
+            foreach (Collider shipCollider in ownColliders)
+            {
+                if (shipCollider == null)
+                    continue;
+
+                Physics.IgnoreCollision(torpedoCollider, shipCollider, true);
+            }
+        }
     }
 
     public void AlertDestroyer()
@@ -135,7 +173,13 @@ public class EnemyHunterBehavior : MonoBehaviour
             return;
 
         isAlerted = true;
-        nextFireTime = Time.time + fireIntervalSeconds;
+
+        nextFireTime = Time.time + 10f;
+
+        if (name != null && rb != null)
+        {
+            Debug.Log($"{name} alerted at {rb.position}");
+        }
     }
 
     public void OnAnyShipHit(Transform hitShip)
