@@ -31,6 +31,10 @@ public class EnemyHunterBehavior : MonoBehaviour
     [SerializeField] private float torpedoSpeed = 12f;
     [SerializeField] private float torpedoMaxDistance = 100f;
 
+    [Header("Torpedo Rotation Settings")]
+    [SerializeField] private Vector3 launchRotationOffsetEuler = new Vector3(0f, 90f, 0f);
+
+
     private Rigidbody rb;
     private Collider[] ownColliders;
 
@@ -126,11 +130,15 @@ public class EnemyHunterBehavior : MonoBehaviour
 
         Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
 
+        Quaternion spawnRotation = rotation * Quaternion.Euler(launchRotationOffsetEuler);
+
         GameObject torpedo = Instantiate(
             torpedoPrefab,
             spawnPosition,
-            rotation
+            spawnRotation
         );
+
+        torpedo.SetActive(true);
 
         TorpedoMover mover = torpedo.GetComponent<TorpedoMover>();
 

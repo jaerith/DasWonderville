@@ -1372,6 +1372,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7491652268253911890, guid: ad88ba219a4c9034e910b9bbacf540d9, type: 3}
   m_PrefabInstance: {fileID: 535057033}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &537023837
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 537023838}
+  m_Layer: 0
+  m_Name: TorpedoSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &537023838
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 537023837}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.675, y: -1.204, z: 8.702}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 909383600}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &551558918
 GameObject:
   m_ObjectHideFlags: 0
@@ -1837,6 +1868,37 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
+--- !u!1 &590828603
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 590828604}
+  m_Layer: 0
+  m_Name: TorpedoSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &590828604
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590828603}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.715, y: -1.114, z: 8.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1465074190}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &663929671
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2365,6 +2427,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1733407857}
+  - {fileID: 537023838}
   m_Father: {fileID: 1509819622}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &909383601
@@ -2413,10 +2476,11 @@ MonoBehaviour:
   rotationSpeed: 3
   yawOffsetDegrees: 0
   torpedoPrefab: {fileID: 1683097858}
-  torpedoSpawnPoint: {fileID: 0}
+  torpedoSpawnPoint: {fileID: 537023838}
   fireIntervalSeconds: 30
   torpedoSpeed: 5
   torpedoMaxDistance: 500
+  launchRotationOffsetEuler: {x: 0, y: 90, z: 0}
 --- !u!54 &909383603
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3931,6 +3995,7 @@ MonoBehaviour:
   fireIntervalSeconds: 30
   torpedoSpeed: 5
   torpedoMaxDistance: 500
+  launchRotationOffsetEuler: {x: 0, y: 45, z: 0}
 --- !u!54 &1228328351
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4611,6 +4676,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1688798412}
+  - {fileID: 590828604}
   m_Father: {fileID: 1509819622}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1465074191
@@ -4659,10 +4725,11 @@ MonoBehaviour:
   rotationSpeed: 3
   yawOffsetDegrees: 0
   torpedoPrefab: {fileID: 1683097858}
-  torpedoSpawnPoint: {fileID: 0}
+  torpedoSpawnPoint: {fileID: 590828604}
   fireIntervalSeconds: 30
   torpedoSpeed: 5
   torpedoMaxDistance: 500
+  launchRotationOffsetEuler: {x: 0, y: 90, z: 0}
 --- !u!54 &1465074193
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5532,6 +5599,7 @@ MonoBehaviour:
   fireIntervalSeconds: 30
   torpedoSpeed: 5
   torpedoMaxDistance: 500
+  launchRotationOffsetEuler: {x: 0, y: 45, z: 0}
 --- !u!1 &1683097858
 GameObject:
   m_ObjectHideFlags: 0
