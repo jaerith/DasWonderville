@@ -227,8 +227,8 @@ Light:
   serializedVersion: 13
   m_Type: 2
   m_Color: {r: 1, g: 0.042452812, b: 0.26973256, a: 1}
-  m_Intensity: 1
-  m_Range: 10
+  m_Intensity: 100
+  m_Range: 1000
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
@@ -2330,8 +2330,8 @@ Light:
   serializedVersion: 13
   m_Type: 2
   m_Color: {r: 1, g: 0.042452812, b: 0.26973256, a: 1}
-  m_Intensity: 1
-  m_Range: 10
+  m_Intensity: 100
+  m_Range: 1000
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
@@ -2817,6 +2817,7 @@ GameObject:
   - component: {fileID: 909383603}
   - component: {fileID: 909383602}
   - component: {fileID: 909383601}
+  - component: {fileID: 909383605}
   m_Layer: 0
   m_Name: Destroyer1
   m_TagString: Ship
@@ -2882,6 +2883,7 @@ MonoBehaviour:
   forwardSpeed: 1
   lateralDriftSpeed: 0.25
   driftDirection: 0.2
+  lightPulser: {fileID: 909383605}
   player: {fileID: 1193809377}
   pursuitSpeed: 1.25
   stopDistanceFromPlayer: 1.5
@@ -2941,6 +2943,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.8920593, y: 4.2647324, z: 16.512085}
   m_Center: {x: 0.7349396, y: 0.6663451, z: 1.3690186}
+--- !u!114 &909383605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 909383599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd04caf6a5d41674db4f2636b0720e70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AlternatingLightPulser
+  lightA: {fileID: 38527245}
+  lightB: {fileID: 1478252560}
+  frequency: 2
 --- !u!1001 &916007887
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4522,6 +4539,7 @@ MonoBehaviour:
   forwardSpeed: 1
   lateralDriftSpeed: 0.25
   driftDirection: 0.2
+  lightPulser: {fileID: 0}
   player: {fileID: 1193809377}
   pursuitSpeed: 1.5
   stopDistanceFromPlayer: 1.5
@@ -5192,6 +5210,7 @@ GameObject:
   - component: {fileID: 1465074193}
   - component: {fileID: 1465074192}
   - component: {fileID: 1465074191}
+  - component: {fileID: 1465074195}
   m_Layer: 0
   m_Name: Destroyer2
   m_TagString: Ship
@@ -5257,6 +5276,7 @@ MonoBehaviour:
   forwardSpeed: 1
   lateralDriftSpeed: 0.25
   driftDirection: 0.2
+  lightPulser: {fileID: 1465074195}
   player: {fileID: 1193809377}
   pursuitSpeed: 1.25
   stopDistanceFromPlayer: 1.5
@@ -5316,6 +5336,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.8920593, y: 4.2647324, z: 16.512085}
   m_Center: {x: 0.7349396, y: 0.6663451, z: 1.3690186}
+--- !u!114 &1465074195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465074189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd04caf6a5d41674db4f2636b0720e70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AlternatingLightPulser
+  lightA: {fileID: 698344865}
+  lightB: {fileID: 1808278872}
+  frequency: 2
 --- !u!1 &1473832309
 GameObject:
   m_ObjectHideFlags: 0
@@ -5424,8 +5459,8 @@ Light:
   serializedVersion: 13
   m_Type: 2
   m_Color: {r: 1, g: 0.042452812, b: 0.26973256, a: 1}
-  m_Intensity: 1
-  m_Range: 10
+  m_Intensity: 100
+  m_Range: 1000
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
@@ -6254,6 +6289,7 @@ MonoBehaviour:
   forwardSpeed: 1
   lateralDriftSpeed: 0.25
   driftDirection: 0.2
+  lightPulser: {fileID: 0}
   player: {fileID: 1193809377}
   pursuitSpeed: 1.5
   stopDistanceFromPlayer: 1.5
@@ -6680,8 +6716,8 @@ Light:
   serializedVersion: 13
   m_Type: 2
   m_Color: {r: 1, g: 0.042452812, b: 0.26973256, a: 1}
-  m_Intensity: 1
-  m_Range: 10
+  m_Intensity: 100
+  m_Range: 1000
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}

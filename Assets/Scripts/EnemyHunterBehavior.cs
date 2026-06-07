@@ -1,7 +1,5 @@
 using UnityEngine;
 
-using UnityEngine;
-
 [RequireComponent(typeof(Rigidbody))]
 public class EnemyHunterBehavior : MonoBehaviour
 {
@@ -16,6 +14,7 @@ public class EnemyHunterBehavior : MonoBehaviour
     [SerializeField] private float driftDirection = 0.2f;
 
     [Header("Alert Behavior")]
+    [SerializeField] private AlternatingLightPulser lightPulser;
     [SerializeField] private Transform player;
     [SerializeField] private float pursuitSpeed = 3f;
     [SerializeField] private float stopDistanceFromPlayer = 1.5f;
@@ -68,6 +67,12 @@ public class EnemyHunterBehavior : MonoBehaviour
 
         if (isAlerted && player != null)
         {
+            if (lightPulser != null && !lightPulser.IsPulsing)
+            {
+                Debug.Log("EnemyHunterBehavior: starting light pulser on alert.");
+                lightPulser.Play();
+            }
+
             Vector3 toPlayer = player.position - rb.position;
             toPlayer.y = 0f;
 
@@ -86,6 +91,10 @@ public class EnemyHunterBehavior : MonoBehaviour
             alertForward.Normalize();
             rb.MovePosition(rb.position + alertForward * pursuitSpeed * Time.fixedDeltaTime);
             return;
+        }
+        else if (lightPulser != null && lightPulser.IsPulsing)
+        {
+            lightPulser.Stop();
         }
 
         Vector3 bowDir = newRot * Vector3.forward;
