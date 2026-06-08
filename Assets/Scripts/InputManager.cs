@@ -7,6 +7,7 @@ public class InputManager : MonoBehaviour
     [Header("Input")]
     [SerializeField] private InputActionProperty fireAction;
     [SerializeField] private InputActionProperty moveAction;
+    [SerializeField] private InputActionProperty escapeAction;
 
     [Header("References")]
     [SerializeField] private GameObject torpedoPrefab;
@@ -15,6 +16,7 @@ public class InputManager : MonoBehaviour
 
     [Header("Player Movement")]
     [SerializeField] private float moveSpeed = 2.5f;
+    [SerializeField] private RandomPlaneTransporter transporter;
 
     [Header("Torpedo Limit")]
     [SerializeField] private int maxTorpedoesPerWindow = 2;
@@ -32,24 +34,28 @@ public class InputManager : MonoBehaviour
     [SerializeField] private float maxDistance = 50f;
 
     private bool wasPressed;
+    private bool wasEscapePressed;
     private readonly Queue<float> fireTimes = new Queue<float>();
 
     private void OnEnable()
     {
         fireAction.action?.Enable();
         moveAction.action?.Enable();
+        escapeAction.action?.Enable();
     }
 
     private void OnDisable()
     {
         fireAction.action?.Disable();
         moveAction.action?.Disable();
+        escapeAction.action?.Disable();
     }
 
     private void Update()
     {
         HandleMovement();
         HandleFireInput();
+        HandleEscape();
     }
 
     private void HandleMovement()
@@ -72,6 +78,25 @@ public class InputManager : MonoBehaviour
         playerRoot.position += movement * moveSpeed * Time.deltaTime;
     }
 
+    private void HandleEscape()
+    {
+        float value = escapeAction.action != null
+            ? escapeAction.action.ReadValue<float>()
+            : 0f;
+
+        bool isPressed = value > 0f;
+
+        if (isPressed && !wasEscapePressed)
+        {
+            if (CanEscape())
+                Escape();
+            else
+                Debug.Log("Escape reload window active.");
+        }
+
+        wasEscapePressed = isPressed;
+    }
+
     private void HandleFireInput()
     {
         float value = fireAction.action != null
@@ -91,6 +116,12 @@ public class InputManager : MonoBehaviour
         wasPressed = isPressed;
     }
 
+    private bool CanEscape()
+    {
+        // NOTE: Future constraints will be established
+        return (transporter != null);
+    }
+
     private bool CanFireTorpedo()
     {
         float now = Time.time;
@@ -103,6 +134,13 @@ public class InputManager : MonoBehaviour
 
         fireTimes.Enqueue(now);
         return true;
+    }
+
+    public void Escape()
+    {
+        // NOTE: Future escape behavior will be implemented here.
+        transporter.randomTransport();
+        Debug.Log("Escape triggered!");
     }
 
     private void FireTorpedo()
