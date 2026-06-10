@@ -139,7 +139,7 @@ public class InputManager : MonoBehaviour
     public void Escape()
     {
         // NOTE: Future escape behavior will be implemented here.
-        transporter.randomTransport();
+        transporter.RandomTransport();
         Debug.Log("Escape triggered!");
     }
 
