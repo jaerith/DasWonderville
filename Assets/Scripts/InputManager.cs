@@ -1,6 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class InputManager : MonoBehaviour
 {
@@ -22,6 +24,9 @@ public class InputManager : MonoBehaviour
     [SerializeField] private int maxTorpedoesPerWindow = 2;
     [SerializeField] private float fireWindowSeconds = 15f;
 
+    [Header("Escape Limit")]
+    [SerializeField] private float escapeWindowSeconds = 10f;
+
     [Header("Spawn Settings")]
     [SerializeField] private float launchDistanceInFront = 0.75f;
     [SerializeField] private float spawnYOffset = -0.25f;
@@ -36,6 +41,7 @@ public class InputManager : MonoBehaviour
     private bool wasPressed;
     private bool wasEscapePressed;
     private readonly Queue<float> fireTimes = new Queue<float>();
+    private float lastEscapeTime = float.MinValue;
 
     private void OnEnable()
     {
@@ -118,8 +124,14 @@ public class InputManager : MonoBehaviour
 
     private bool CanEscape()
     {
-        // NOTE: Future constraints will be established
-        return (transporter != null);
+        if (transporter == null)
+            return false;
+
+        if (Time.time - lastEscapeTime < escapeWindowSeconds)
+            return false;
+
+        lastEscapeTime = Time.time;
+        return true;
     }
 
     private bool CanFireTorpedo()
@@ -134,6 +146,17 @@ public class InputManager : MonoBehaviour
 
         fireTimes.Enqueue(now);
         return true;
+    }
+
+    public void RestartGame()
+    {
+        StartCoroutine(RestartAfterDelay());
+    }
+
+    private IEnumerator RestartAfterDelay()
+    {
+        yield return new WaitForSeconds(5f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void Escape()

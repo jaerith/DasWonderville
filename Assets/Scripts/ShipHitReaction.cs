@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ShipHitReaction : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class ShipHitReaction : MonoBehaviour
     [Header("Nearby Sibling Detection")]
     [SerializeField] private float nearbySiblingDetectionDistance = 25f;
     [SerializeField] private bool logNearbySiblings = true;
+
+    [Header("Events")]
+    [SerializeField] private UnityEvent onShipHit;
 
     [Header("Sinking")]
     [SerializeField] private int hitsBeforeSinking = 2;
@@ -29,6 +33,8 @@ public class ShipHitReaction : MonoBehaviour
             return;
 
         hitCount++;
+
+        onShipHit?.Invoke();
 
         foreach (EnemyHunterBehavior destroyer in FindObjectsByType<EnemyHunterBehavior>(FindObjectsInactive.Include))
         {
