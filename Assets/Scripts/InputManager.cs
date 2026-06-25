@@ -43,6 +43,29 @@ public class InputManager : MonoBehaviour
     private readonly Queue<float> fireTimes = new Queue<float>();
     private float lastEscapeTime = float.MinValue;
 
+    public float TorpedoReloadSecondsRemaining
+    {
+        get
+        {
+            float now = Time.time;
+            int activeCount = 0;
+            float oldestActive = float.MaxValue;
+            foreach (float t in fireTimes)
+            {
+                if (now - t <= fireWindowSeconds)
+                {
+                    activeCount++;
+                    if (t < oldestActive) oldestActive = t;
+                }
+            }
+            if (activeCount < maxTorpedoesPerWindow) return 0f;
+            return Mathf.Max(0f, fireWindowSeconds - (now - oldestActive));
+        }
+    }
+
+    public float EscapeReloadSecondsRemaining =>
+        Mathf.Max(0f, escapeWindowSeconds - (Time.time - lastEscapeTime));
+
     private void OnEnable()
     {
         fireAction.action?.Enable();
