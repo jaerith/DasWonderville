@@ -4,6 +4,7 @@ using UnityEngine;
 public class StatsHudDisplay : MonoBehaviour
 {
     [SerializeField] private InputManager inputManager;
+    public TextMeshPro statusText;
     public TextMeshPro torpedoTimerText;
     public TextMeshPro escapeTimerText;
 
@@ -23,5 +24,17 @@ public class StatsHudDisplay : MonoBehaviour
             escapeTimerText.text = escRemaining > 0f
                 ? $"ESCAPE   {escRemaining:F1}s"
                 : "ESCAPE   READY";
+    }
+
+    public void DisplayStatusUnderAttack()
+    {
+        statusText.text = "UNDER ATTACK";
+        statusText.color = Color.yellow;
+    }
+
+    public void DisplayStatusGameOver()
+    {
+        statusText.text  = "GAME OVER";
+        statusText.color = Color.red;
     }
 }

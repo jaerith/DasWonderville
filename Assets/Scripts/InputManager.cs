@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class InputManager : MonoBehaviour
 {
@@ -15,6 +16,10 @@ public class InputManager : MonoBehaviour
     [SerializeField] private GameObject torpedoPrefab;
     [SerializeField] private Transform viewer;
     [SerializeField] private Transform playerRoot;
+    [SerializeField] private StatsHudDisplay statsHudDisplay;
+
+    [Header("Sounds")]
+    [SerializeField] private AudioClip gameOverClip;
 
     [Header("Player Movement")]
     [SerializeField] private float moveSpeed = 2.5f;
@@ -78,6 +83,10 @@ public class InputManager : MonoBehaviour
         fireAction.action?.Disable();
         moveAction.action?.Disable();
         escapeAction.action?.Disable();
+    }
+
+    private void Awake()
+    {
     }
 
     private void Update()
@@ -171,14 +180,44 @@ public class InputManager : MonoBehaviour
         return true;
     }
 
+    public void PlayGameOverSound()
+    {
+        if (gameOverClip == null)
+            return;
+
+        GameObject audioObj = new GameObject("ExplosionSound");
+        audioObj.transform.position = this.gameObject.transform.position;
+
+        AudioSource source = audioObj.AddComponent<AudioSource>();
+        source.clip = gameOverClip;
+        source.volume = 0.7f;
+        source.pitch = 0.6f;
+
+        // Important: make it 2D while testing.
+        source.spatialBlend = 0f;
+
+        source.playOnAwake = false;
+        source.loop = true;
+
+        source.Play();
+    }
+
     public void RestartGame()
     {
+        PlayGameOverSound();
+
+        if (statsHudDisplay != null)
+        {
+            statsHudDisplay.DisplayStatusGameOver();
+        }
+
         StartCoroutine(RestartAfterDelay());
     }
 
     private IEnumerator RestartAfterDelay()
     {
         yield return new WaitForSeconds(5f);
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -222,4 +261,13 @@ public class InputManager : MonoBehaviour
         torpedo.SetActive(true);
         mover.Initialize(flatForward, speed, maxDistance);
     }
+
+    public void SetStateEnemyAlerted()
+    {
+        if (statsHudDisplay != null)
+        {
+            statsHudDisplay.DisplayStatusUnderAttack();
+        }
+    }
+
 }

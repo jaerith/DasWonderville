@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody))]
 public class EnemyHunterBehavior : MonoBehaviour
@@ -19,6 +20,7 @@ public class EnemyHunterBehavior : MonoBehaviour
     [SerializeField] private float pursuitSpeed = 3f;
     [SerializeField] private float stopDistanceFromPlayer = 1.5f;
     [SerializeField] private float rotationSpeed = 8f;
+    [SerializeField] private UnityEvent onAttackDetection;
 
     [Tooltip("Use this if the destroyer's bow is not aligned with local +Z.")]
     [SerializeField] private float yawOffsetDegrees = 0f;
@@ -197,6 +199,8 @@ public class EnemyHunterBehavior : MonoBehaviour
         {
             Debug.Log($"{name} alerted at {rb.position}");
         }
+
+        onAttackDetection?.Invoke();
     }
 
     public void OnAnyShipHit(Transform hitShip)
