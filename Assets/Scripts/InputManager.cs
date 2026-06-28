@@ -43,6 +43,7 @@ public class InputManager : MonoBehaviour
     [SerializeField] private float speed = 12f;
     [SerializeField] private float maxDistance = 50f;
 
+    private bool gameOverMode;
     private bool wasPressed;
     private bool wasEscapePressed;
     private readonly Queue<float> fireTimes = new Queue<float>();
@@ -204,6 +205,10 @@ public class InputManager : MonoBehaviour
 
     public void RestartGame()
     {
+        gameOverMode = true;
+
+        Debug.Log("Game Over! Restarting the game...");
+
         PlayGameOverSound();
 
         if (statsHudDisplay != null)
@@ -262,11 +267,48 @@ public class InputManager : MonoBehaviour
         mover.Initialize(flatForward, speed, maxDistance);
     }
 
+    public void SetStateDefault()
+    {
+        if (statsHudDisplay != null)
+        {
+            statsHudDisplay.DisplayStatusDefault();
+        }
+    }
+
     public void SetStateEnemyAlerted()
     {
         if (statsHudDisplay != null)
         {
             statsHudDisplay.DisplayStatusUnderAttack();
+        }
+    }
+
+    public void SetSystemStatus()
+    {
+        if (gameOverMode)
+        {
+            if (statsHudDisplay != null)
+            {
+                statsHudDisplay.DisplayStatusGameOver();
+            }
+
+            return;
+        }
+
+        bool isAlerted = false;
+
+        foreach (EnemyHunterBehavior destroyer in FindObjectsByType<EnemyHunterBehavior>(FindObjectsInactive.Include))
+        {
+            isAlerted |= destroyer.isAlerted;
+        }
+
+        if (isAlerted)
+        {
+            SetStateEnemyAlerted();
+        }
+        else
+        {
+            SetStateDefault();
         }
     }
 

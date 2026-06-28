@@ -16,6 +16,7 @@ public class ShipHitReaction : MonoBehaviour
 
     [Header("Events")]
     [SerializeField] private UnityEvent onShipHit;
+    [SerializeField] private UnityEvent onShipSink;
 
     [Header("Sinking")]
     [SerializeField] private int hitsBeforeSinking = 2;
@@ -29,6 +30,8 @@ public class ShipHitReaction : MonoBehaviour
 
     public void RegisterHit(Vector3 hitPosition)
     {
+        Debug.Log("ShipHitReaction: RegisterHit called at position: " + hitPosition);
+
         if (isSinking)
             return;
 
@@ -48,6 +51,7 @@ public class ShipHitReaction : MonoBehaviour
             SpawnExplosion(hitPosition);
             DetectNearbySiblingObjects();
             StartCoroutine(SinkAndDestroy());
+            onShipSink?.Invoke();
         }
         else
         {

@@ -39,7 +39,7 @@ public class EnemyHunterBehavior : MonoBehaviour
     private Rigidbody rb;
     private Collider[] ownColliders;
 
-    private bool isAlerted;
+    public bool isAlerted { get; protected set; } = false;
     private float nextFireTime;
 
     private void Awake()
@@ -201,6 +201,11 @@ public class EnemyHunterBehavior : MonoBehaviour
         }
 
         onAttackDetection?.Invoke();
+    }
+
+    public void DisableAlert()
+    {
+        isAlerted = false;
     }
 
     public void OnAnyShipHit(Transform hitShip)

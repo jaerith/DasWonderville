@@ -4,9 +4,17 @@ using UnityEngine;
 public class StatsHudDisplay : MonoBehaviour
 {
     [SerializeField] private InputManager inputManager;
+
     public TextMeshPro statusText;
     public TextMeshPro torpedoTimerText;
     public TextMeshPro escapeTimerText;
+
+    private Color defaultColor = Color.white;
+
+    private void Awake()
+    {
+        defaultColor = statusText.color;
+    }
 
     private void Update()
     {
@@ -24,6 +32,12 @@ public class StatsHudDisplay : MonoBehaviour
             escapeTimerText.text = escRemaining > 0f
                 ? $"ESCAPE   {escRemaining:F1}s"
                 : "ESCAPE   READY";
+    }
+
+    public void DisplayStatusDefault()
+    {
+        statusText.text = "System Status";
+        statusText.color = defaultColor;
     }
 
     public void DisplayStatusUnderAttack()
