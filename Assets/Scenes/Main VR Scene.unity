@@ -8090,6 +8090,7 @@ GameObject:
   - component: {fileID: 1646953902}
   - component: {fileID: 1646953904}
   - component: {fileID: 1646953905}
+  - component: {fileID: 1646953906}
   m_Layer: 0
   m_Name: InputManager
   m_TagString: Untagged
@@ -8291,6 +8292,33 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1646953906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1646953901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b8235e01197d2744a839a2d3026be1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DebugKeyboardControls
+  onRestartGame:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1646953902}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: RestartGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &1655627872
 PrefabInstance:
   m_ObjectHideFlags: 0
