@@ -1,0 +1,11 @@
+Model Information:
+* title:	Torpedo A-244S
+* source:	https://sketchfab.com/3d-models/torpedo-a-244s-f4fdc6d927ab49329f2e74141008a7d7
+* author:	YamIyamAyam (https://sketchfab.com/YamIyamAyam)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Torpedo A-244S" (https://sketchfab.com/3d-models/torpedo-a-244s-f4fdc6d927ab49329f2e74141008a7d7) by YamIyamAyam (https://sketchfab.com/YamIyamAyam) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
