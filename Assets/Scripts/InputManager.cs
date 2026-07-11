@@ -19,6 +19,7 @@ public class InputManager : MonoBehaviour
     [SerializeField] private StatsHudDisplay statsHudDisplay;
 
     [Header("Sounds")]
+    [SerializeField] private AudioClip escapeClip;
     [SerializeField] private AudioClip gameOverClip;
 
     [Header("Player Movement")]
@@ -181,6 +182,30 @@ public class InputManager : MonoBehaviour
         return true;
     }
 
+    public void PlayEscapeSound()
+    {
+        if (escapeClip == null)
+            return;
+
+        GameObject audioObj = new GameObject("DiveAlarmSound");
+        audioObj.transform.position = this.gameObject.transform.position;
+
+        AudioSource source = audioObj.AddComponent<AudioSource>();
+        source.clip = escapeClip;
+        source.volume = 0.7f;
+        source.pitch = 0.6f;
+
+        // Important: make it 2D while testing.
+        source.spatialBlend = 0f;
+
+        source.playOnAwake = false;
+        source.loop = false;
+
+        source.Play();
+
+        Destroy(audioObj, escapeClip.length + 1.0f);
+    }
+
     public void PlayGameOverSound()
     {
         if (gameOverClip == null)
@@ -229,6 +254,7 @@ public class InputManager : MonoBehaviour
     public void Escape()
     {
         // NOTE: Future escape behavior will be implemented here.
+        PlayEscapeSound();
         transporter.RandomTransport();
         Debug.Log("Escape triggered!");
     }
