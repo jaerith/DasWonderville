@@ -115,8 +115,26 @@ public class EnemyHunterBehavior : MonoBehaviour
         if (Time.time < nextFireTime)
             return;
 
+        if (!IsBowAimedAtPlayer())
+            return;
+
         FireTorpedoAtPlayer();
         nextFireTime = Time.time + fireIntervalSeconds;
+    }
+
+    private bool IsBowAimedAtPlayer()
+    {
+        if (player == null) return false;
+
+        Vector3 toPlayer = player.position - rb.position;
+        toPlayer.y = 0f;
+        if (toPlayer.sqrMagnitude < 0.0001f) return false;
+
+        Vector3 bowForward = rb.rotation * Vector3.forward;
+        bowForward.y = 0f;
+        bowForward.Normalize();
+
+        return Vector3.Angle(bowForward, toPlayer.normalized) <= 25f;
     }
 
     private void FireTorpedoAtPlayer()
