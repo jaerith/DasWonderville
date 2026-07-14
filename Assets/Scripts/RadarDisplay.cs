@@ -46,7 +46,9 @@ public class RadarDisplay : MonoBehaviour
                 blip.gameObject.SetActive(inRange);
                 if (inRange)
                 {
-                    blip.color = entry.color;
+                    Color c = entry.color;
+                    if (c.a < 0.01f) c.a = 1f;
+                    blip.color = c;
                     blip.rectTransform.anchoredPosition = WorldToRadar(delta);
                 }
             }
@@ -71,8 +73,10 @@ public class RadarDisplay : MonoBehaviour
         var go = new GameObject(target.name + "_blip");
         go.transform.SetParent(blipContainer, false);
 
+        float size = Mathf.Max(entry.blipSize, 8f);
+
         var rect = go.AddComponent<RectTransform>();
-        rect.sizeDelta = new Vector2(entry.blipSize, entry.blipSize);
+        rect.sizeDelta = new Vector2(size, size);
 
         var img = go.AddComponent<Image>();
         img.raycastTarget = false;
