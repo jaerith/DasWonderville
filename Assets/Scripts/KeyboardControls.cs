@@ -1,9 +1,17 @@
+using System;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class DebugKeyboardControls : MonoBehaviour
 {
+    [SerializeField]
+    [Min(1)]
+    private int resolutionMultiplier = 3;
+
+    [SerializeField] private UnityEvent onFireDecoy;
+
     [SerializeField] private UnityEvent onRestartGame;
 
     private void Update()
@@ -17,10 +25,21 @@ public class DebugKeyboardControls : MonoBehaviour
             onRestartGame.Invoke();
         }
 
+        // Fire left torpedo
+        if (Keyboard.current.sKey.wasPressedThisFrame)
+        {
+            onFireDecoy.Invoke();
+        }
+
         // Quit the application
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             QuitGame();
+        }
+
+        if (Keyboard.current.pKey.wasPressedThisFrame)
+        {
+            TakeScreenshot();
         }
 #endif
     }
@@ -32,5 +51,22 @@ public class DebugKeyboardControls : MonoBehaviour
 #else
         Application.Quit();
 #endif
+    }
+
+    public void TakeScreenshot()
+    {
+        string folder = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
+            "SubmarineSimulatorScreenshots");
+
+        Directory.CreateDirectory(folder);
+
+        string timestamp = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+        string filename = $"SubmarineScreenshot_{timestamp}.png";
+        string fullPath = Path.Combine(folder, filename);
+
+        ScreenCapture.CaptureScreenshot(fullPath, resolutionMultiplier);
+
+        Debug.Log($"Screenshot requested: {fullPath}");
     }
 }

@@ -4612,6 +4612,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TorpedoWaterWake
       objectReference: {fileID: 0}
+    - target: {fileID: 6940044979258432869, guid: 3690e80825f9a094bb6d76a5e674591d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10350,6 +10354,7 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: -4289430672226363583, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   torpedoPrefab: {fileID: 1683097858}
+  decoyPrefab: {fileID: 1944369945}
   viewer: {fileID: 1193809377}
   playerRoot: {fileID: 1976267236}
   statsHudDisplay: {fileID: 3553694143137686320}
@@ -10508,6 +10513,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b8235e01197d2744a839a2d3026be1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DebugKeyboardControls
+  resolutionMultiplier: 1
+  onFireDecoy:
+    m_PersistentCalls:
+      m_Calls: []
   onRestartGame:
     m_PersistentCalls:
       m_Calls:
@@ -12162,7 +12171,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1889341159
 Transform:
   m_ObjectHideFlags: 0
@@ -12455,7 +12464,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: d09c99392929a4b478a1f4be94d84663, type: 3}
+  m_Resource: {fileID: 8300000, guid: 90e4a0c1da0fb954e9572493cdc73bfd, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1

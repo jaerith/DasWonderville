@@ -14,6 +14,7 @@ public class InputManager : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private GameObject torpedoPrefab;
+    [SerializeField] private GameObject decoyPrefab;
     [SerializeField] private Transform viewer;
     [SerializeField] private Transform playerRoot;
     [SerializeField] private StatsHudDisplay statsHudDisplay;
