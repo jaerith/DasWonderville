@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -48,7 +47,8 @@ public class InputManager : MonoBehaviour
     private bool gameOverMode;
     private bool wasPressed;
     private bool wasEscapePressed;
-    private readonly Queue<float> fireTimes = new Queue<float>();
+    private int shotsInWindow;
+    private float fireWindowStartTime = float.MinValue;
     private float lastEscapeTime = float.MinValue;
 
     public float TorpedoReloadSecondsRemaining
@@ -56,18 +56,14 @@ public class InputManager : MonoBehaviour
         get
         {
             float now = Time.time;
-            int activeCount = 0;
-            float oldestActive = float.MaxValue;
-            foreach (float t in fireTimes)
-            {
-                if (now - t <= fireWindowSeconds)
-                {
-                    activeCount++;
-                    if (t < oldestActive) oldestActive = t;
-                }
-            }
-            if (activeCount < maxTorpedoesPerWindow) return 0f;
-            return Mathf.Max(0f, fireWindowSeconds - (now - oldestActive));
+
+            if (now - fireWindowStartTime >= fireWindowSeconds)
+                return 0f;
+
+            if (shotsInWindow < maxTorpedoesPerWindow)
+                return 0f;
+
+            return Mathf.Max(0f, fireWindowSeconds - (now - fireWindowStartTime));
         }
     }
 
@@ -173,13 +169,16 @@ public class InputManager : MonoBehaviour
     {
         float now = Time.time;
 
-        while (fireTimes.Count > 0 && now - fireTimes.Peek() > fireWindowSeconds)
-            fireTimes.Dequeue();
+        if (now - fireWindowStartTime >= fireWindowSeconds)
+        {
+            fireWindowStartTime = now;
+            shotsInWindow = 0;
+        }
 
-        if (fireTimes.Count >= maxTorpedoesPerWindow)
+        if (shotsInWindow >= maxTorpedoesPerWindow)
             return false;
 
-        fireTimes.Enqueue(now);
+        shotsInWindow++;
         return true;
     }
 
@@ -291,6 +290,46 @@ public class InputManager : MonoBehaviour
             mover = torpedo.AddComponent<TorpedoMover>();
 
         torpedo.SetActive(true);
+        mover.Initialize(flatForward, speed, maxDistance);
+    }
+
+    public void FireSonarDecoy()
+    {
+        if (decoyPrefab == null || viewer == null)
+        {
+            Debug.LogWarning("DecoyLauncher is missing decoyPrefab or viewer.");
+            return;
+        }
+
+        if (!CanFireTorpedo())
+        {
+            Debug.Log("Torpedo reload window active.");
+            return;
+        }
+
+        Vector3 flatForward = viewer.forward;
+        flatForward.y = 0f;
+
+        if (flatForward.sqrMagnitude < 0.001f)
+            flatForward = transform.forward;
+
+        flatForward.Normalize();
+
+        Vector3 spawnPosition =
+            viewer.position +
+            flatForward * launchDistanceInFront +
+            Vector3.up * spawnYOffset;
+
+        Quaternion baseRotation = Quaternion.LookRotation(flatForward, Vector3.up);
+        Quaternion spawnRotation = baseRotation * Quaternion.Euler(launchRotationOffsetEuler);
+
+        GameObject decoy = Instantiate(decoyPrefab, spawnPosition, spawnRotation);
+
+        TorpedoMover mover = decoy.GetComponent<TorpedoMover>();
+        if (mover == null)
+            mover = decoy.AddComponent<TorpedoMover>();
+
+        decoy.SetActive(true);
         mover.Initialize(flatForward, speed, maxDistance);
     }
 

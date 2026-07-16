@@ -15,6 +15,7 @@ public class RandomPlaneTransporter : MonoBehaviour
     [Header("Transport Effect")]
     [SerializeField] private ParticleSystem transportParticles;
     [SerializeField] private float effectDurationSeconds = 2.0f;
+    [SerializeField] private float submergeDepth = 3.0f;
 
     private Coroutine transportRoutine;
 
@@ -31,17 +32,37 @@ public class RandomPlaneTransporter : MonoBehaviour
         if (!IsValid())
             yield break;
 
+        float surfaceY = player.position.y;
+        float submergedY = surfaceY - submergeDepth;
+
         PlayParticles();
-        yield return new WaitForSeconds(effectDurationSeconds);
+        yield return AnimateDepth(surfaceY, submergedY, effectDurationSeconds);
 
         player.position = GetRandomPointInPlane();
 
         PlayParticles();
-        yield return new WaitForSeconds(effectDurationSeconds);
+        yield return AnimateDepth(submergedY, surfaceY, effectDurationSeconds);
 
         StopParticles();
 
         transportRoutine = null;
+    }
+
+    private IEnumerator AnimateDepth(float fromY, float toY, float duration)
+    {
+        Vector3 position = player.position;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            position.y = Mathf.Lerp(fromY, toY, Mathf.Clamp01(elapsed / duration));
+            player.position = position;
+            yield return null;
+        }
+
+        position.y = toY;
+        player.position = position;
     }
 
     private Vector3 GetRandomPointInPlane()

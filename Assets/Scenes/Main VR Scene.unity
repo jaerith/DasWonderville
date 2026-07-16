@@ -1451,8 +1451,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 304173688}
+        m_TargetAssemblyTypeName: EnemyHunterBehavior, Assembly-CSharp
+        m_MethodName: IndicateShipIsSinking
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   hitsBeforeSinking: 1
-  sinkDistance: 300
+  sinkDistance: 100
   sinkSpeed: 0.2
   rotateWhileSinking: 1
   sinkingRotationPerSecond: {x: 0, y: 0, z: 0.1}
@@ -3044,8 +3056,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 578776883}
+        m_TargetAssemblyTypeName: EnemyHunterBehavior, Assembly-CSharp
+        m_MethodName: IndicateShipIsSinking
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   hitsBeforeSinking: 1
-  sinkDistance: 300
+  sinkDistance: 100
   sinkSpeed: 0.2
   rotateWhileSinking: 1
   sinkingRotationPerSecond: {x: 0, y: 0, z: 0.1}
@@ -4190,8 +4214,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 694329293}
+        m_TargetAssemblyTypeName: EnemyHunterBehavior, Assembly-CSharp
+        m_MethodName: IndicateShipIsSinking
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   hitsBeforeSinking: 1
-  sinkDistance: 300
+  sinkDistance: 100
   sinkSpeed: 0.2
   rotateWhileSinking: 1
   sinkingRotationPerSecond: {x: 0, y: 0, z: 0.1}
@@ -5315,8 +5351,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 909383602}
+        m_TargetAssemblyTypeName: EnemyHunterBehavior, Assembly-CSharp
+        m_MethodName: IndicateShipIsSinking
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   hitsBeforeSinking: 1
-  sinkDistance: 300
+  sinkDistance: 100
   sinkSpeed: 0.2
   rotateWhileSinking: 1
   sinkingRotationPerSecond: {x: 0, y: 0, z: 0.1}
@@ -6789,8 +6837,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1142249275}
+        m_TargetAssemblyTypeName: EnemyHunterBehavior, Assembly-CSharp
+        m_MethodName: IndicateShipIsSinking
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   hitsBeforeSinking: 1
-  sinkDistance: 300
+  sinkDistance: 100
   sinkSpeed: 0.2
   rotateWhileSinking: 1
   sinkingRotationPerSecond: {x: 0, y: 0, z: 0.1}
@@ -8681,8 +8741,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1465074192}
+        m_TargetAssemblyTypeName: EnemyHunterBehavior, Assembly-CSharp
+        m_MethodName: IndicateShipIsSinking
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   hitsBeforeSinking: 1
-  sinkDistance: 300
+  sinkDistance: 100
   sinkSpeed: 0.2
   rotateWhileSinking: 1
   sinkingRotationPerSecond: {x: 0, y: 0, z: 0.1}
@@ -10404,6 +10476,7 @@ MonoBehaviour:
   player: {fileID: 1976267236}
   transportParticles: {fileID: 1655627874}
   effectDurationSeconds: 1.5
+  submergeDepth: 3
 --- !u!82 &1646953905
 AudioSource:
   m_ObjectHideFlags: 0
@@ -10516,7 +10589,19 @@ MonoBehaviour:
   resolutionMultiplier: 1
   onFireDecoy:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1646953902}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: FireSonarDecoy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onRestartGame:
     m_PersistentCalls:
       m_Calls:
@@ -12418,7 +12503,7 @@ GameObject:
   - component: {fileID: 1944369947}
   m_Layer: 0
   m_Name: Sonar Decoy
-  m_TagString: Untagged
+  m_TagString: SonarDecoy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -25,8 +25,8 @@ public class DebugKeyboardControls : MonoBehaviour
             onRestartGame.Invoke();
         }
 
-        // Fire left torpedo
-        if (Keyboard.current.sKey.wasPressedThisFrame)
+        // Fire sonar decoy
+        if (Keyboard.current.dKey.wasPressedThisFrame)
         {
             onFireDecoy.Invoke();
         }

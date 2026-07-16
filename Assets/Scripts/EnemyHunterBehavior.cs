@@ -40,6 +40,7 @@ public class EnemyHunterBehavior : MonoBehaviour
     private Collider[] ownColliders;
 
     public bool isAlerted { get; protected set; } = false;
+    public bool isSinking { get; protected set; } = false;
     private float nextFireTime;
 
     private void Awake()
@@ -67,7 +68,7 @@ public class EnemyHunterBehavior : MonoBehaviour
     {
         Quaternion newRot = rb.rotation;
 
-        if (isAlerted && player != null)
+        if (!isSinking && isAlerted && player != null)
         {
             if (lightPulser != null && !lightPulser.IsPulsing)
             {
@@ -230,4 +231,10 @@ public class EnemyHunterBehavior : MonoBehaviour
     {
         AlertDestroyer();
     }
+
+    public void IndicateShipIsSinking()
+    {
+        isSinking = true;
+    }
+
 }
