@@ -9116,6 +9116,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: affb5a93954de064e8817f608126a1ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TorpedoMover
+  lateralDriftSpeed: 0.25
+  driftDirection: 0
 --- !u!82 &1482289119
 AudioSource:
   m_ObjectHideFlags: 0
@@ -9375,7 +9377,10 @@ MonoBehaviour:
     color: {r: 0.9622642, g: 0.54004186, b: 0.004538993, a: 0}
     blipSize: 16
   - tag: Torpedo
-    color: {r: 1, g: 0.019191347, b: 0, a: 0}
+    color: {r: 1, g: 0.024232347, b: 0.0047169924, a: 0}
+    blipSize: 8
+  - tag: SonarDecoy
+    color: {r: 0, g: 1, b: 0.018987417, a: 0}
     blipSize: 8
   blipContainer: {fileID: 1251692237}
   blipContainerRadius: 800
@@ -11359,6 +11364,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: affb5a93954de064e8817f608126a1ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TorpedoMover
+  lateralDriftSpeed: 0.25
+  driftDirection: 0
 --- !u!65 &1683097862
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11890,6 +11897,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1838763685}
+  - component: {fileID: 1838763686}
   m_Layer: 0
   m_Name: Environment
   m_TagString: Untagged
@@ -11915,6 +11923,24 @@ Transform:
   - {fileID: 1870266258}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1838763686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1838763684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e8770538e4a0843950a30b8791cae3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SonarDecoyEvents
+  torpedoTag: Torpedo
+  decoyTag: SonarDecoy
+  decoyDetectionRadius: 50
+  decoyLateralDriftSpeed: 1.5
+  leftDriftDirection: -0.5
+  rightDriftDirection: 0.5
 --- !u!1001 &1842487403
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12538,6 +12564,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: affb5a93954de064e8817f608126a1ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TorpedoMover
+  lateralDriftSpeed: 0.25
+  driftDirection: 0
 --- !u!82 &1944369948
 AudioSource:
   m_ObjectHideFlags: 0

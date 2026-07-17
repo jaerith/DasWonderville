@@ -10,16 +10,31 @@ public class TorpedoMover : MonoBehaviour
     [Range(-1f, 1f)]
     [SerializeField] private float driftDirection = 0f;
 
+    private bool affectedByDecoy = false;
     private Vector3 direction;
     private Vector3 startPosition;
     private float speed;
     private float maxDistance;
+
+    public bool AffectedByDecoy
+    {
+        get => affectedByDecoy;
+        set => affectedByDecoy = value;
+    }
 
     public float DriftDirection
     {
         get => driftDirection;
         set => driftDirection = value;
     }
+
+    public float LateralDriftSpeed
+    {
+        get => lateralDriftSpeed;
+        set => lateralDriftSpeed = value;
+    }
+
+    public Vector3 Direction => direction;
 
     public void Initialize(Vector3 moveDirection, float moveSpeed, float destroyDistance, float driftDirectionValue = 0f)
     {
@@ -30,7 +45,12 @@ public class TorpedoMover : MonoBehaviour
         speed = moveSpeed;
         maxDistance = destroyDistance;
         startPosition = transform.position;
-        driftDirection = driftDirectionValue;
+        driftDirection = driftDirectionValue;    
+    }
+
+    private void Awake()
+    {
+        AffectedByDecoy = false;
     }
 
     private void Update()
