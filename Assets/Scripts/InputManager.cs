@@ -26,6 +26,9 @@ public class InputManager : MonoBehaviour
     [SerializeField] private float moveSpeed = 2.5f;
     [SerializeField] private RandomPlaneTransporter transporter;
 
+    [Header("Snap Turn")]
+    [SerializeField] private float snapTurnDegrees = 45f;
+
     [Header("Torpedo Limit")]
     [SerializeField] private int maxTorpedoesPerWindow = 2;
     [SerializeField] private float fireWindowSeconds = 15f;
@@ -113,6 +116,24 @@ public class InputManager : MonoBehaviour
 
         Vector3 movement = forward * input.y + right * input.x;
         playerRoot.position += movement * moveSpeed * Time.deltaTime;
+    }
+
+    public void SnapTurnRight()
+    {
+        SnapTurn(snapTurnDegrees);
+    }
+
+    public void SnapTurnLeft()
+    {
+        SnapTurn(-snapTurnDegrees);
+    }
+
+    private void SnapTurn(float degrees)
+    {
+        if (playerRoot == null)
+            return;
+
+        playerRoot.Rotate(Vector3.up, degrees, Space.World);
     }
 
     private void HandleEscape()

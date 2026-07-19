@@ -14,6 +14,12 @@ public class DebugKeyboardControls : MonoBehaviour
 
     [SerializeField] private UnityEvent onRestartGame;
 
+    [SerializeField] private UnityEvent onToggleZoom;
+
+    [SerializeField] private UnityEvent onSnapTurnLeft;
+
+    [SerializeField] private UnityEvent onSnapTurnRight;
+
     private void Update()
     {
 #if UNITY_ANDROID
@@ -29,6 +35,24 @@ public class DebugKeyboardControls : MonoBehaviour
         if (Keyboard.current.dKey.wasPressedThisFrame)
         {
             onFireDecoy.Invoke();
+        }
+
+        // Toggle periscope zoom
+        if (Keyboard.current.sKey.wasPressedThisFrame)
+        {
+            onToggleZoom.Invoke();
+        }
+
+        // Snap turn left
+        if (Keyboard.current.leftArrowKey.wasPressedThisFrame)
+        {
+            onSnapTurnLeft.Invoke();
+        }
+
+        // Snap turn right
+        if (Keyboard.current.rightArrowKey.wasPressedThisFrame)
+        {
+            onSnapTurnRight.Invoke();
         }
 
         // Quit the application
