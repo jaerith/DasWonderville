@@ -35,13 +35,24 @@ public class EnemyHunterBehavior : MonoBehaviour
     [Header("Torpedo Rotation Settings")]
     [SerializeField] private Vector3 launchRotationOffsetEuler = new Vector3(0f, 90f, 0f);
 
-
     private Rigidbody rb;
     private Collider[] ownColliders;
 
     public bool isAlerted { get; protected set; } = false;
     public bool isSinking { get; protected set; } = false;
     private float nextFireTime;
+
+    public float PursuitSpeed
+    {
+        get => pursuitSpeed;
+        set => pursuitSpeed = value;
+    }
+
+    public float RotationSpeed
+    {
+        get => rotationSpeed;
+        set => rotationSpeed = value;
+    }
 
     private void Awake()
     {
