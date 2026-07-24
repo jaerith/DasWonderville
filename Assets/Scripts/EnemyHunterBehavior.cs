@@ -54,6 +54,12 @@ public class EnemyHunterBehavior : MonoBehaviour
         set => rotationSpeed = value;
     }
 
+    public float FireIntervalSeconds
+    {
+        get => fireIntervalSeconds;
+        set => fireIntervalSeconds = value;
+    }
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();

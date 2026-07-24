@@ -5932,6 +5932,7 @@ GameObject:
   - component: {fileID: 909383604}
   - component: {fileID: 909383603}
   - component: {fileID: 909383602}
+  - component: {fileID: 909383606}
   - component: {fileID: 909383601}
   - component: {fileID: 909383605}
   m_Layer: 0
@@ -6120,6 +6121,18 @@ MonoBehaviour:
   lightA: {fileID: 38527245}
   lightB: {fileID: 1478252560}
   frequency: 2
+--- !u!114 &909383606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 909383599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31a093f1677672241aa644951bc6ffab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EliteHunter
 --- !u!1001 &916007887
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9569,6 +9582,7 @@ GameObject:
   - component: {fileID: 1465074194}
   - component: {fileID: 1465074193}
   - component: {fileID: 1465074192}
+  - component: {fileID: 1465074196}
   - component: {fileID: 1465074191}
   - component: {fileID: 1465074195}
   m_Layer: 0
@@ -9757,6 +9771,18 @@ MonoBehaviour:
   lightA: {fileID: 698344865}
   lightB: {fileID: 1808278872}
   frequency: 2
+--- !u!114 &1465074196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465074189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31a093f1677672241aa644951bc6ffab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EliteHunter
 --- !u!1 &1473832309
 GameObject:
   m_ObjectHideFlags: 0
