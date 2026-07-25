@@ -35,6 +35,13 @@ public class EnemyHunterBehavior : MonoBehaviour
     [Header("Torpedo Rotation Settings")]
     [SerializeField] private Vector3 launchRotationOffsetEuler = new Vector3(0f, 90f, 0f);
 
+    [Header("Random Placement")]
+    [SerializeField] private bool randomizePositionOnStart = false;
+    [SerializeField] private Transform cornerA;
+    [SerializeField] private Transform cornerB;
+    [SerializeField] private Transform cornerC;
+    [SerializeField] private Transform cornerD;
+
     private Rigidbody rb;
     private Collider[] ownColliders;
 
@@ -67,6 +74,26 @@ public class EnemyHunterBehavior : MonoBehaviour
         rb.useGravity = false;
         rb.interpolation = RigidbodyInterpolation.Interpolate;
         ownColliders = GetComponentsInChildren<Collider>(true);
+
+        if (randomizePositionOnStart)
+            RelocateWithinPlaneCorners();
+    }
+
+    private void RelocateWithinPlaneCorners()
+    {
+        if (cornerA == null || cornerB == null || cornerC == null || cornerD == null)
+            return;
+
+        float u = Random.value;
+        float v = Random.value;
+
+        Vector3 bottomEdge = Vector3.Lerp(cornerA.position, cornerB.position, u);
+        Vector3 topEdge = Vector3.Lerp(cornerD.position, cornerC.position, u);
+
+        Vector3 randomPosition = Vector3.Lerp(bottomEdge, topEdge, v);
+
+        randomPosition.y = transform.position.y;
+        transform.position = randomPosition;
     }
 
     private void Update()

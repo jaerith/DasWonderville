@@ -1497,6 +1497,11 @@ MonoBehaviour:
   torpedoSpeed: 10
   torpedoMaxDistance: 500
   launchRotationOffsetEuler: {x: 0, y: 90, z: 0}
+  randomizePositionOnStart: 0
+  cornerA: {fileID: 0}
+  cornerB: {fileID: 0}
+  cornerC: {fileID: 0}
+  cornerD: {fileID: 0}
 --- !u!54 &304173689
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3001,6 +3006,11 @@ MonoBehaviour:
   torpedoSpeed: 10
   torpedoMaxDistance: 500
   launchRotationOffsetEuler: {x: 0, y: 90, z: 0}
+  randomizePositionOnStart: 0
+  cornerA: {fileID: 0}
+  cornerB: {fileID: 0}
+  cornerC: {fileID: 0}
+  cornerD: {fileID: 0}
 --- !u!54 &544012231
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3608,6 +3618,11 @@ MonoBehaviour:
   torpedoSpeed: 10
   torpedoMaxDistance: 500
   launchRotationOffsetEuler: {x: 0, y: 90, z: 0}
+  randomizePositionOnStart: 1
+  cornerA: {fileID: 419206629}
+  cornerB: {fileID: 599008535}
+  cornerC: {fileID: 1985759513}
+  cornerD: {fileID: 780275625}
 --- !u!54 &578776884
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4792,6 +4807,11 @@ MonoBehaviour:
   torpedoSpeed: 10
   torpedoMaxDistance: 500
   launchRotationOffsetEuler: {x: 0, y: 90, z: 0}
+  randomizePositionOnStart: 0
+  cornerA: {fileID: 0}
+  cornerB: {fileID: 0}
+  cornerC: {fileID: 0}
+  cornerD: {fileID: 0}
 --- !u!54 &694329294
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6058,6 +6078,11 @@ MonoBehaviour:
   torpedoSpeed: 10
   torpedoMaxDistance: 500
   launchRotationOffsetEuler: {x: 0, y: 90, z: 0}
+  randomizePositionOnStart: 0
+  cornerA: {fileID: 0}
+  cornerB: {fileID: 0}
+  cornerC: {fileID: 0}
+  cornerD: {fileID: 0}
 --- !u!54 &909383603
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8396,6 +8421,11 @@ MonoBehaviour:
   torpedoSpeed: 5
   torpedoMaxDistance: 500
   launchRotationOffsetEuler: {x: 0, y: 45, z: 0}
+  randomizePositionOnStart: 0
+  cornerA: {fileID: 0}
+  cornerB: {fileID: 0}
+  cornerC: {fileID: 0}
+  cornerD: {fileID: 0}
 --- !u!54 &1228328351
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9016,6 +9046,11 @@ MonoBehaviour:
   torpedoSpeed: 10
   torpedoMaxDistance: 500
   launchRotationOffsetEuler: {x: 0, y: 90, z: 0}
+  randomizePositionOnStart: 0
+  cornerA: {fileID: 0}
+  cornerB: {fileID: 0}
+  cornerC: {fileID: 0}
+  cornerD: {fileID: 0}
 --- !u!54 &1281679403
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9708,6 +9743,11 @@ MonoBehaviour:
   torpedoSpeed: 10
   torpedoMaxDistance: 500
   launchRotationOffsetEuler: {x: 0, y: 90, z: 0}
+  randomizePositionOnStart: 1
+  cornerA: {fileID: 419206629}
+  cornerB: {fileID: 599008535}
+  cornerC: {fileID: 1985759513}
+  cornerD: {fileID: 780275625}
 --- !u!54 &1465074193
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -12056,6 +12096,11 @@ MonoBehaviour:
   torpedoSpeed: 5
   torpedoMaxDistance: 500
   launchRotationOffsetEuler: {x: 0, y: 45, z: 0}
+  randomizePositionOnStart: 0
+  cornerA: {fileID: 0}
+  cornerB: {fileID: 0}
+  cornerC: {fileID: 0}
+  cornerD: {fileID: 0}
 --- !u!1 &1675682919
 GameObject:
   m_ObjectHideFlags: 0
