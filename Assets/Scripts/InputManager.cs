@@ -73,6 +73,32 @@ public class InputManager : MonoBehaviour
     public float EscapeReloadSecondsRemaining =>
         Mathf.Max(0f, escapeWindowSeconds - (Time.time - lastEscapeTime));
 
+    public Transform Viewer => viewer;
+    public float TorpedoSpeed => speed;
+    public float TorpedoMaxDistance => maxDistance;
+
+    public Vector3 GetTorpedoLaunchDirection()
+    {
+        if (viewer == null)
+            return transform.forward;
+
+        Vector3 flatForward = viewer.forward;
+        flatForward.y = 0f;
+
+        if (flatForward.sqrMagnitude < 0.001f)
+            flatForward = transform.forward;
+
+        flatForward.Normalize();
+        return flatForward;
+    }
+
+    public Vector3 GetTorpedoSpawnPosition(Vector3 launchDirection)
+    {
+        return viewer.position +
+            launchDirection * launchDistanceInFront +
+            Vector3.up * spawnYOffset;
+    }
+
     private void OnEnable()
     {
         fireAction.action?.Enable();
@@ -288,18 +314,8 @@ public class InputManager : MonoBehaviour
             return;
         }
 
-        Vector3 flatForward = viewer.forward;
-        flatForward.y = 0f;
-
-        if (flatForward.sqrMagnitude < 0.001f)
-            flatForward = transform.forward;
-
-        flatForward.Normalize();
-
-        Vector3 spawnPosition =
-            viewer.position +
-            flatForward * launchDistanceInFront +
-            Vector3.up * spawnYOffset;
+        Vector3 flatForward = GetTorpedoLaunchDirection();
+        Vector3 spawnPosition = GetTorpedoSpawnPosition(flatForward);
 
         Quaternion baseRotation = Quaternion.LookRotation(flatForward, Vector3.up);
         Quaternion spawnRotation = baseRotation * Quaternion.Euler(launchRotationOffsetEuler);

@@ -4,6 +4,8 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Rigidbody))]
 public class EnemyHunterBehavior : MonoBehaviour
 {
+    private const float PlayerFacingOffsetDegrees = 10f;
+
     [Header("Normal Movement")]
     [SerializeField] private bool useLocalBow = true;
     [SerializeField] private Vector3 worldBowDirection = new Vector3(0f, 0f, 1f);
@@ -84,6 +86,10 @@ public class EnemyHunterBehavior : MonoBehaviour
         if (cornerA == null || cornerB == null || cornerC == null || cornerD == null)
             return;
 
+        Debug.Log("EnemyHunterBehavior: relocating (" + this.gameObject.name + ") within plane corners.");
+
+        Debug.Log("EnemyHunterBehavior: ship (" + this.gameObject.name+ ") => current position = " + transform.position);
+
         float u = Random.value;
         float v = Random.value;
 
@@ -94,6 +100,30 @@ public class EnemyHunterBehavior : MonoBehaviour
 
         randomPosition.y = transform.position.y;
         transform.position = randomPosition;
+
+        // rb.isKinematic Rigidbodies cache their own position separately from the
+        // Transform. Without this, rb.position still reports the pre-relocation
+        // spot until physics syncs on its own schedule, so the very first
+        // MoveNormally() call in FixedUpdate reads the stale rb.position and
+        // moves from there — visually snapping the ship back to where it started.
+        rb.position = randomPosition;
+
+        if (player != null)
+        {
+            Vector3 toPlayer = player.position - transform.position;
+            toPlayer.y = 0f;
+
+            if (toPlayer.sqrMagnitude > 0.0001f)
+            {
+                Quaternion facePlayer = Quaternion.LookRotation(toPlayer.normalized, Vector3.up);
+                Quaternion facing = facePlayer * Quaternion.Euler(0f, PlayerFacingOffsetDegrees, 0f);
+
+                transform.rotation = facing;
+                rb.rotation = facing;
+            }
+        }
+
+        Debug.Log("EnemyHunterBehavior: ship (" + this.gameObject.name + ") => after relocation = " + transform.position);
     }
 
     private void Update()
