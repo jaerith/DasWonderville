@@ -8,6 +8,7 @@ TagManager:
   - Torpedo
   - Hunter
   - SonarDecoy
+  - DepthCharge
   layers:
   - Default
   - TransparentFX

@@ -16,6 +16,11 @@ public class AlternatingLightPulser : MonoBehaviour
 
     private Coroutine pulseCoroutine;
 
+    private void OnEnable()
+    {
+        Play();
+    }
+
     private void OnDisable()
     {
         Stop();

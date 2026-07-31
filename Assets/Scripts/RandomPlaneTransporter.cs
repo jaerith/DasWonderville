@@ -17,7 +17,20 @@ public class RandomPlaneTransporter : MonoBehaviour
     [SerializeField] private float effectDurationSeconds = 2.0f;
     [SerializeField] private float submergeDepth = 3.0f;
 
+    [Header("Depth Charge Spawn")]
+    [SerializeField] private GameObject depthChargePrefab;
+    [SerializeField] private Camera mainCamera;
+    [SerializeField] private float minSpawnDistanceFromCamera = 5f;
+    [SerializeField] private float maxSpawnDistanceFromCamera = 15f;
+    [SerializeField] private float heightAboveCameraTop = 3f;
+
     private Coroutine transportRoutine;
+
+    private void Awake()
+    {
+        if (mainCamera == null)
+            mainCamera = Camera.main;
+    }
 
     public void RandomTransport()
     {
@@ -27,10 +40,50 @@ public class RandomPlaneTransporter : MonoBehaviour
         transportRoutine = StartCoroutine(RandomTransportRoutine());
     }
 
+    private void SpawnDepthCharge()
+    {
+        if (depthChargePrefab == null || mainCamera == null)
+            return;
+
+        Debug.Log("Spawning depth charge above camera.");
+
+        Vector3 flatForward = mainCamera.transform.forward;
+        flatForward.y = 0f;
+
+        if (flatForward.sqrMagnitude < 0.001f)
+            flatForward = player != null ? player.forward : Vector3.forward;
+
+        flatForward.Normalize();
+
+        float distance = Random.Range(minSpawnDistanceFromCamera, maxSpawnDistanceFromCamera);
+
+        Vector3 spawnPosition = mainCamera.transform.position + flatForward * distance;
+        spawnPosition.y = mainCamera.transform.position.y + heightAboveCameraTop;
+
+        var depthCharge = Instantiate(depthChargePrefab, spawnPosition, Quaternion.identity);
+        depthCharge.gameObject.SetActive(true);
+
+        var lightPulser = depthCharge.GetComponent<AlternatingLightPulser>();
+        if (lightPulser != null)
+        {
+            lightPulser.gameObject.SetActive(true);
+            lightPulser.Play();
+        }
+
+        var igniter = depthCharge.GetComponent<DepthChargeIgniter>();
+        if (igniter != null)
+        {
+            Debug.Log("Assigning main camera to DepthChargeIgniter.");
+            igniter.mainCamera = mainCamera.gameObject;
+        }
+    }
+
     private IEnumerator RandomTransportRoutine()
     {
         if (!IsValid())
             yield break;
+
+        SpawnDepthCharge();
 
         float surfaceY = player.position.y;
         float submergedY = surfaceY - submergeDepth;
