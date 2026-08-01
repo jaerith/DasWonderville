@@ -205,6 +205,9 @@ public class InputManager : MonoBehaviour
         if (transporter == null)
             return false;
 
+        if (transporter.IsTransporting)
+            return false;
+
         if (Time.time - lastEscapeTime < escapeWindowSeconds)
             return false;
 
@@ -214,6 +217,9 @@ public class InputManager : MonoBehaviour
 
     private bool CanFireTorpedo()
     {
+        if (transporter != null && transporter.IsTransporting)
+            return false;
+
         float now = Time.time;
 
         if (now - fireWindowStartTime >= fireWindowSeconds)

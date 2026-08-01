@@ -23,8 +23,11 @@ public class RandomPlaneTransporter : MonoBehaviour
     [SerializeField] private float minSpawnDistanceFromCamera = 5f;
     [SerializeField] private float maxSpawnDistanceFromCamera = 15f;
     [SerializeField] private float heightAboveCameraTop = 3f;
+    [SerializeField] private float hunterDetectionDistance = 20f;
 
     private Coroutine transportRoutine;
+
+    public bool IsTransporting => transportRoutine != null;
 
     private void Awake()
     {
@@ -43,6 +46,12 @@ public class RandomPlaneTransporter : MonoBehaviour
     private void SpawnDepthCharge()
     {
         if (depthChargePrefab == null || mainCamera == null)
+            return;
+
+        if (!IsHunterNearby())
+            return;
+
+        if (!IsAnyHunterAlerted())
             return;
 
         Debug.Log("Spawning depth charge above camera.");
@@ -76,6 +85,34 @@ public class RandomPlaneTransporter : MonoBehaviour
             Debug.Log("Assigning main camera to DepthChargeIgniter.");
             igniter.mainCamera = mainCamera.gameObject;
         }
+    }
+
+    private bool IsHunterNearby()
+    {
+        GameObject[] hunters = GameObject.FindGameObjectsWithTag("Hunter");
+        if (hunters.Length == 0)
+            return false;
+
+        Vector3 referencePosition = player != null ? player.position : transform.position;
+
+        foreach (GameObject hunter in hunters)
+        {
+            if (Vector3.Distance(referencePosition, hunter.transform.position) <= hunterDetectionDistance)
+                return true;
+        }
+
+        return false;
+    }
+
+    private bool IsAnyHunterAlerted()
+    {
+        foreach (EnemyHunterBehavior hunter in FindObjectsByType<EnemyHunterBehavior>(FindObjectsInactive.Include))
+        {
+            if (hunter.isAlerted)
+                return true;
+        }
+
+        return false;
     }
 
     private IEnumerator RandomTransportRoutine()
