@@ -10,7 +10,7 @@ public class RandomPlaneTransporter : MonoBehaviour
     [SerializeField] private Transform cornerD;
 
     [Header("Player")]
-    [SerializeField] private Transform player;
+    [SerializeField] private Transform playerTransform;
 
     [Header("Transport Effect")]
     [SerializeField] private ParticleSystem transportParticles;
@@ -48,11 +48,17 @@ public class RandomPlaneTransporter : MonoBehaviour
         if (depthChargePrefab == null || mainCamera == null)
             return;
 
-        if (!IsHunterNearby())
-            return;
-
         if (!IsAnyHunterAlerted())
+        {
+            Debug.Log("No depth charges deployed - no hunters altered.");
             return;
+        }
+
+        if (!IsHunterNearby())
+        {
+            Debug.Log("No depth charges deployed - no hunters nearby.");
+            return;
+        }
 
         Debug.Log("Spawning depth charge above camera.");
 
@@ -60,7 +66,7 @@ public class RandomPlaneTransporter : MonoBehaviour
         flatForward.y = 0f;
 
         if (flatForward.sqrMagnitude < 0.001f)
-            flatForward = player != null ? player.forward : Vector3.forward;
+            flatForward = playerTransform != null ? playerTransform.forward : Vector3.forward;
 
         flatForward.Normalize();
 
@@ -83,7 +89,7 @@ public class RandomPlaneTransporter : MonoBehaviour
         if (igniter != null)
         {
             Debug.Log("Assigning main camera to DepthChargeIgniter.");
-            igniter.mainCamera = mainCamera.gameObject;
+            igniter.playerTransform = playerTransform;
         }
     }
 
@@ -93,7 +99,7 @@ public class RandomPlaneTransporter : MonoBehaviour
         if (hunters.Length == 0)
             return false;
 
-        Vector3 referencePosition = player != null ? player.position : transform.position;
+        Vector3 referencePosition = playerTransform != null ? playerTransform.position : transform.position;
 
         foreach (GameObject hunter in hunters)
         {
@@ -122,13 +128,13 @@ public class RandomPlaneTransporter : MonoBehaviour
 
         SpawnDepthCharge();
 
-        float surfaceY = player.position.y;
+        float surfaceY = playerTransform.position.y;
         float submergedY = surfaceY - submergeDepth;
 
         PlayParticles();
         yield return AnimateDepth(surfaceY, submergedY, effectDurationSeconds);
 
-        player.position = GetRandomPointInPlane();
+        playerTransform.position = GetRandomPointInPlane();
 
         PlayParticles();
         yield return AnimateDepth(submergedY, surfaceY, effectDurationSeconds);
@@ -140,19 +146,19 @@ public class RandomPlaneTransporter : MonoBehaviour
 
     private IEnumerator AnimateDepth(float fromY, float toY, float duration)
     {
-        Vector3 position = player.position;
+        Vector3 position = playerTransform.position;
         float elapsed = 0f;
 
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
             position.y = Mathf.Lerp(fromY, toY, Mathf.Clamp01(elapsed / duration));
-            player.position = position;
+            playerTransform.position = position;
             yield return null;
         }
 
         position.y = toY;
-        player.position = position;
+        playerTransform.position = position;
     }
 
     private Vector3 GetRandomPointInPlane()
@@ -165,7 +171,7 @@ public class RandomPlaneTransporter : MonoBehaviour
 
         Vector3 randomPosition = Vector3.Lerp(bottomEdge, topEdge, v);
 
-        randomPosition.y = player.position.y;
+        randomPosition.y = playerTransform.position.y;
         return randomPosition;
     }
 
@@ -190,7 +196,7 @@ public class RandomPlaneTransporter : MonoBehaviour
 
     private bool IsValid()
     {
-        if (cornerA == null || cornerB == null || cornerC == null || cornerD == null || player == null)
+        if (cornerA == null || cornerB == null || cornerC == null || cornerD == null || playerTransform == null)
         {
             Debug.LogWarning("RandomPlaneTransporter is missing one or more required Transform references.");
             return false;

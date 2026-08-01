@@ -833,7 +833,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DepthChargeMover
   sinkSpeed: 3
-  maxDepth: 10
+  maxDepth: 9
   onDepthChargeAwakened:
     m_PersistentCalls:
       m_Calls:
@@ -852,7 +852,7 @@ MonoBehaviour:
   onMaxDepthReached:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1331063688}
+      - m_Target: {fileID: 166864934}
         m_TargetAssemblyTypeName: DepthChargeIgniter, Assembly-CSharp
         m_MethodName: SpawnExplosion
         m_Mode: 1
@@ -864,7 +864,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1331063688}
+      - m_Target: {fileID: 166864934}
         m_TargetAssemblyTypeName: DepthChargeIgniter, Assembly-CSharp
         m_MethodName: PlayHitSound
         m_Mode: 1
@@ -889,8 +889,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DepthChargeIgniter
   explosionPrefab: {fileID: 2468980003719164987, guid: 6feab4891019cda4da4045b8ba87660d, type: 3}
-  mainCamera: {fileID: 1193809376}
-  explosionDistanceInFront: 3
+  playerTransform: {fileID: 1976267236}
+  explosionDistanceInFront: 6
   hitSound: {fileID: 8300000, guid: 44cab3e2bd6654f459c26e86616af88f, type: 3}
   hitVolume: 1
 --- !u!1 &187663888
@@ -9990,7 +9990,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1281679398
 Transform:
   m_ObjectHideFlags: 0
@@ -10455,7 +10455,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DepthChargeIgniter
   explosionPrefab: {fileID: 2468980003719164987, guid: 6feab4891019cda4da4045b8ba87660d, type: 3}
-  mainCamera: {fileID: 0}
+  playerTransform: {fileID: 0}
   explosionDistanceInFront: 3
   hitSound: {fileID: 8300000, guid: 44cab3e2bd6654f459c26e86616af88f, type: 3}
   hitVolume: 1
@@ -12965,7 +12965,7 @@ MonoBehaviour:
   cornerB: {fileID: 599008535}
   cornerC: {fileID: 1985759513}
   cornerD: {fileID: 780275625}
-  player: {fileID: 1976267236}
+  playerTransform: {fileID: 1976267236}
   transportParticles: {fileID: 1655627874}
   effectDurationSeconds: 6
   submergeDepth: 12
@@ -12974,6 +12974,7 @@ MonoBehaviour:
   minSpawnDistanceFromCamera: 1
   maxSpawnDistanceFromCamera: 4
   heightAboveCameraTop: 3
+  hunterDetectionDistance: 100
 --- !u!82 &1646953905
 AudioSource:
   m_ObjectHideFlags: 0

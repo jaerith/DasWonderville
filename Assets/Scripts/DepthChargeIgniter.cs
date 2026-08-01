@@ -4,7 +4,7 @@ public class DepthChargeIgniter : MonoBehaviour
 {
     [Header("Explosion")]
     [SerializeField] private GameObject explosionPrefab;
-    [SerializeField] public GameObject mainCamera;
+    [SerializeField] public Transform playerTransform;
     [SerializeField] private float explosionDistanceInFront = 3f;
 
     [Header("Sound")]
@@ -39,19 +39,15 @@ public class DepthChargeIgniter : MonoBehaviour
         if (explosionPrefab == null)
             return;
 
-        /*
-        Vector3 flatForward = mainCamera.transform.forward;
+        Vector3 flatForward = playerTransform.forward;
         flatForward.y = 0f;
 
         if (flatForward.sqrMagnitude < 0.001f)
-            flatForward = mainCamera.transform.up;
+            flatForward = playerTransform.up;
 
         flatForward.Normalize();
 
-        Vector3 spawnPosition = mainCamera.transform.position + flatForward * explosionDistanceInFront;
-        */
-
-        Vector3 spawnPosition = transform.position + transform.forward * explosionDistanceInFront;
+        Vector3 spawnPosition = playerTransform.position + flatForward * explosionDistanceInFront;
 
         GameObject explosion =
             Instantiate(explosionPrefab, spawnPosition, Quaternion.identity);
@@ -66,20 +62,5 @@ public class DepthChargeIgniter : MonoBehaviour
         {
             Destroy(explosion, 3f);
         }
-    }
-
-    private Transform FindDepthChargeAncestor()
-    {
-        Transform current = transform.parent;
-
-        while (current != null)
-        {
-            if (current.CompareTag("DepthCharge"))
-                return current;
-
-            current = current.parent;
-        }
-
-        return null;
     }
 }
