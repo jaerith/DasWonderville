@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DepthChargeIgniter : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class DepthChargeIgniter : MonoBehaviour
     [Header("Sound")]
     [SerializeField] private AudioClip hitSound;
     [SerializeField] private float hitVolume = 1f;
+
+    public UnityEvent onExplosionCompleted;
 
     public void PlayHitSound()
     {
@@ -62,5 +65,9 @@ public class DepthChargeIgniter : MonoBehaviour
         {
             Destroy(explosion, 3f);
         }
+
+        Debug.Log("Depth charge exploded at position: " + spawnPosition);
+        onExplosionCompleted?.Invoke();
+        Debug.Log("Called onExplosionCompleted event after explosion.");
     }
 }

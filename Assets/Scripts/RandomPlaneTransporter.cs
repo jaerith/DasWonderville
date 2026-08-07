@@ -11,6 +11,7 @@ public class RandomPlaneTransporter : MonoBehaviour
 
     [Header("Player")]
     [SerializeField] private Transform playerTransform;
+    [SerializeField] private HealthBarDisplay healhBarDisplay;
 
     [Header("Transport Effect")]
     [SerializeField] private ParticleSystem transportParticles;
@@ -90,6 +91,7 @@ public class RandomPlaneTransporter : MonoBehaviour
         {
             Debug.Log("Assigning main camera to DepthChargeIgniter.");
             igniter.playerTransform = playerTransform;
+            igniter.onExplosionCompleted.AddListener(() => CalculateRandomDamage());
         }
     }
 
@@ -159,6 +161,19 @@ public class RandomPlaneTransporter : MonoBehaviour
 
         position.y = toY;
         playerTransform.position = position;
+    }
+
+    private void CalculateRandomDamage()
+    {
+        if (healhBarDisplay == null)
+            return;
+
+        Debug.Log("Inside RandomPlaneTransporter: CalculateRandomDamage called.");
+
+        float damage = Random.Range(25f, 50f);
+        Debug.Log($"Applying random damage: {damage}");
+
+        healhBarDisplay.ApplyDamage(damage);
     }
 
     private Vector3 GetRandomPointInPlane()

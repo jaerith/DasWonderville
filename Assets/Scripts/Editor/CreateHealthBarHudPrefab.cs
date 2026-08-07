@@ -58,6 +58,7 @@ public static class CreateHealthBarHudPrefab
             new Vector2(BarWidth, BarHeight),
             FullColor);
         fillImg.raycastTarget = false;
+        fillImg.sprite         = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
         fillImg.type          = Image.Type.Filled;
         fillImg.fillMethod     = Image.FillMethod.Vertical;
         fillImg.fillOrigin     = (int)Image.OriginVertical.Bottom;
