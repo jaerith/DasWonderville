@@ -2097,7 +2097,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 704861122246619499, guid: b5fa6381787f56b409be10d1e3b808fc, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1008575358649529454, guid: b5fa6381787f56b409be10d1e3b808fc, type: 3}
       propertyPath: m_LocalScale.x
@@ -3115,6 +3115,7 @@ MonoBehaviour:
   forwardSpeed: 1
   lateralDriftSpeed: 0.25
   driftDirection: 0.2
+  depthChargeIndicator: {fileID: 1707115362}
   lightPulser: {fileID: 304173686}
   player: {fileID: 1193809377}
   pursuitSpeed: 1.5
@@ -3143,10 +3144,12 @@ MonoBehaviour:
   torpedoMaxDistance: 500
   launchRotationOffsetEuler: {x: 0, y: 90, z: 0}
   randomizePositionOnStart: 0
-  cornerA: {fileID: 0}
-  cornerB: {fileID: 0}
-  cornerC: {fileID: 0}
-  cornerD: {fileID: 0}
+  cornerA: {fileID: 419206629}
+  cornerB: {fileID: 599008535}
+  cornerC: {fileID: 1985759513}
+  cornerD: {fileID: 780275625}
+  playerRandomPlaneTransporter: {fileID: 1646953904}
+  depthChargeCheckIntervalSeconds: 1
 --- !u!54 &304173689
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3669,7 +3672,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 704861122246619499, guid: b5fa6381787f56b409be10d1e3b808fc, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1008575358649529454, guid: b5fa6381787f56b409be10d1e3b808fc, type: 3}
       propertyPath: m_LocalScale.x
@@ -5672,6 +5675,7 @@ MonoBehaviour:
   forwardSpeed: 1
   lateralDriftSpeed: 0.25
   driftDirection: 0.2
+  depthChargeIndicator: {fileID: 1441284698}
   lightPulser: {fileID: 544012228}
   player: {fileID: 1193809377}
   pursuitSpeed: 1.5
@@ -5704,6 +5708,8 @@ MonoBehaviour:
   cornerB: {fileID: 599008535}
   cornerC: {fileID: 1985759513}
   cornerD: {fileID: 780275625}
+  playerRandomPlaneTransporter: {fileID: 1646953904}
+  depthChargeCheckIntervalSeconds: 1
 --- !u!54 &544012231
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6410,6 +6416,7 @@ MonoBehaviour:
   forwardSpeed: 1
   lateralDriftSpeed: 0.25
   driftDirection: 0.2
+  depthChargeIndicator: {fileID: 280563341}
   lightPulser: {fileID: 578776881}
   player: {fileID: 1193809377}
   pursuitSpeed: 1.5
@@ -6442,6 +6449,8 @@ MonoBehaviour:
   cornerB: {fileID: 599008535}
   cornerC: {fileID: 1985759513}
   cornerD: {fileID: 780275625}
+  playerRandomPlaneTransporter: {fileID: 1646953904}
+  depthChargeCheckIntervalSeconds: 1
 --- !u!54 &578776884
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7844,6 +7853,7 @@ MonoBehaviour:
   forwardSpeed: 1
   lateralDriftSpeed: 0.25
   driftDirection: 0.2
+  depthChargeIndicator: {fileID: 1950117128}
   lightPulser: {fileID: 694329291}
   player: {fileID: 1193809377}
   pursuitSpeed: 1.5
@@ -7872,10 +7882,12 @@ MonoBehaviour:
   torpedoMaxDistance: 500
   launchRotationOffsetEuler: {x: 0, y: 90, z: 0}
   randomizePositionOnStart: 0
-  cornerA: {fileID: 0}
-  cornerB: {fileID: 0}
-  cornerC: {fileID: 0}
-  cornerD: {fileID: 0}
+  cornerA: {fileID: 419206629}
+  cornerB: {fileID: 599008535}
+  cornerC: {fileID: 1985759513}
+  cornerD: {fileID: 780275625}
+  playerRandomPlaneTransporter: {fileID: 1646953904}
+  depthChargeCheckIntervalSeconds: 1
 --- !u!54 &694329294
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8318,7 +8330,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 704861122246619499, guid: b5fa6381787f56b409be10d1e3b808fc, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1008575358649529454, guid: b5fa6381787f56b409be10d1e3b808fc, type: 3}
       propertyPath: m_LocalScale.x
@@ -10279,6 +10291,7 @@ MonoBehaviour:
   forwardSpeed: 1
   lateralDriftSpeed: 0.25
   driftDirection: 0.2
+  depthChargeIndicator: {fileID: 1619419104}
   lightPulser: {fileID: 909383605}
   player: {fileID: 1193809377}
   pursuitSpeed: 1.5
@@ -10307,10 +10320,12 @@ MonoBehaviour:
   torpedoMaxDistance: 500
   launchRotationOffsetEuler: {x: 0, y: 90, z: 0}
   randomizePositionOnStart: 0
-  cornerA: {fileID: 0}
-  cornerB: {fileID: 0}
-  cornerC: {fileID: 0}
-  cornerD: {fileID: 0}
+  cornerA: {fileID: 419206629}
+  cornerB: {fileID: 599008535}
+  cornerC: {fileID: 1985759513}
+  cornerD: {fileID: 780275625}
+  playerRandomPlaneTransporter: {fileID: 1646953904}
+  depthChargeCheckIntervalSeconds: 1
 --- !u!54 &909383603
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10506,7 +10521,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 704861122246619499, guid: b5fa6381787f56b409be10d1e3b808fc, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1008575358649529454, guid: b5fa6381787f56b409be10d1e3b808fc, type: 3}
       propertyPath: m_LocalScale.x
@@ -12883,7 +12898,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1181127109
 Transform:
   m_ObjectHideFlags: 0
@@ -13762,6 +13777,7 @@ MonoBehaviour:
   forwardSpeed: 1
   lateralDriftSpeed: 0.25
   driftDirection: 0.2
+  depthChargeIndicator: {fileID: 0}
   lightPulser: {fileID: 0}
   player: {fileID: 1193809377}
   pursuitSpeed: 1.5
@@ -13782,6 +13798,8 @@ MonoBehaviour:
   cornerB: {fileID: 0}
   cornerC: {fileID: 0}
   cornerD: {fileID: 0}
+  playerRandomPlaneTransporter: {fileID: 0}
+  depthChargeCheckIntervalSeconds: 1
 --- !u!54 &1228328351
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -14073,7 +14091,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 704861122246619499, guid: b5fa6381787f56b409be10d1e3b808fc, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1008575358649529454, guid: b5fa6381787f56b409be10d1e3b808fc, type: 3}
       propertyPath: m_LocalScale.x
@@ -14604,6 +14622,7 @@ MonoBehaviour:
   forwardSpeed: 1
   lateralDriftSpeed: 0.25
   driftDirection: 0.2
+  depthChargeIndicator: {fileID: 0}
   lightPulser: {fileID: 1281679400}
   player: {fileID: 1193809377}
   pursuitSpeed: 1.5
@@ -14636,6 +14655,8 @@ MonoBehaviour:
   cornerB: {fileID: 0}
   cornerC: {fileID: 0}
   cornerD: {fileID: 0}
+  playerRandomPlaneTransporter: {fileID: 0}
+  depthChargeCheckIntervalSeconds: 1
 --- !u!54 &1281679403
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -16469,6 +16490,7 @@ MonoBehaviour:
   forwardSpeed: 1
   lateralDriftSpeed: 0.25
   driftDirection: 0.2
+  depthChargeIndicator: {fileID: 1883823974}
   lightPulser: {fileID: 1465074195}
   player: {fileID: 1193809377}
   pursuitSpeed: 1.5
@@ -16501,6 +16523,8 @@ MonoBehaviour:
   cornerB: {fileID: 599008535}
   cornerC: {fileID: 1985759513}
   cornerD: {fileID: 780275625}
+  playerRandomPlaneTransporter: {fileID: 1646953904}
+  depthChargeCheckIntervalSeconds: 1
 --- !u!54 &1465074193
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -18876,7 +18900,7 @@ MonoBehaviour:
   minSpawnDistanceFromCamera: 1
   maxSpawnDistanceFromCamera: 4
   heightAboveCameraTop: 3
-  hunterDetectionDistance: 100
+  hunterDetectionDistance: 150
 --- !u!82 &1646953905
 AudioSource:
   m_ObjectHideFlags: 0
@@ -19516,6 +19540,7 @@ MonoBehaviour:
   forwardSpeed: 1
   lateralDriftSpeed: 0.25
   driftDirection: 0.2
+  depthChargeIndicator: {fileID: 0}
   lightPulser: {fileID: 0}
   player: {fileID: 1193809377}
   pursuitSpeed: 1.5
@@ -19536,6 +19561,8 @@ MonoBehaviour:
   cornerB: {fileID: 0}
   cornerC: {fileID: 0}
   cornerD: {fileID: 0}
+  playerRandomPlaneTransporter: {fileID: 0}
+  depthChargeCheckIntervalSeconds: 1
 --- !u!1 &1675682919
 GameObject:
   m_ObjectHideFlags: 0
@@ -23985,7 +24012,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 704861122246619499, guid: b5fa6381787f56b409be10d1e3b808fc, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1008575358649529454, guid: b5fa6381787f56b409be10d1e3b808fc, type: 3}
       propertyPath: m_LocalScale.x

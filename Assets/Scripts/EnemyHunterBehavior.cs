@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -17,6 +18,7 @@ public class EnemyHunterBehavior : MonoBehaviour
     [SerializeField] private float driftDirection = 0.2f;
 
     [Header("Alert Behavior")]
+    [SerializeField] private GameObject depthChargeIndicator;
     [SerializeField] private AlternatingLightPulser lightPulser;
     [SerializeField] private Transform player;
     [SerializeField] private float pursuitSpeed = 3f;
@@ -43,6 +45,10 @@ public class EnemyHunterBehavior : MonoBehaviour
     [SerializeField] private Transform cornerB;
     [SerializeField] private Transform cornerC;
     [SerializeField] private Transform cornerD;
+    [SerializeField] private RandomPlaneTransporter playerRandomPlaneTransporter;
+
+    [Header("Depth Charge Detection")]
+    [SerializeField] private float depthChargeCheckIntervalSeconds = 1f;
 
     private Rigidbody rb;
     private Collider[] ownColliders;
@@ -79,6 +85,30 @@ public class EnemyHunterBehavior : MonoBehaviour
 
         if (randomizePositionOnStart)
             RelocateWithinPlaneCorners();
+    }
+
+    private void Start()
+    {
+        StartCoroutine(CheckPlayerDistanceForDepthCharges());
+    }
+
+    private IEnumerator CheckPlayerDistanceForDepthCharges()
+    {
+        WaitForSeconds wait = new WaitForSeconds(depthChargeCheckIntervalSeconds);
+
+        while (true)
+        {
+            if (depthChargeIndicator != null && player != null && playerRandomPlaneTransporter != null)
+            {
+                float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+                bool withinRange = distanceToPlayer <= playerRandomPlaneTransporter.HunterDetectionDistanceForDepthCharges;
+
+                if (depthChargeIndicator.activeSelf != withinRange)
+                    depthChargeIndicator.SetActive(withinRange);
+            }
+
+            yield return wait;
+        }
     }
 
     private void RelocateWithinPlaneCorners()

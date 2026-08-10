@@ -30,6 +30,8 @@ public class RandomPlaneTransporter : MonoBehaviour
 
     public bool IsTransporting => transportRoutine != null;
 
+    public float HunterDetectionDistanceForDepthCharges => hunterDetectionDistance;
+
     private void Awake()
     {
         if (mainCamera == null)
