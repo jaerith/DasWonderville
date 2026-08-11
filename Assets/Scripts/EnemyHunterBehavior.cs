@@ -52,6 +52,7 @@ public class EnemyHunterBehavior : MonoBehaviour
 
     private Rigidbody rb;
     private Collider[] ownColliders;
+    private float startingY;
 
     public bool isAlerted { get; protected set; } = false;
     public bool isSinking { get; protected set; } = false;
@@ -85,6 +86,8 @@ public class EnemyHunterBehavior : MonoBehaviour
 
         if (randomizePositionOnStart)
             RelocateWithinPlaneCorners();
+
+        startingY = rb.position.y;
     }
 
     private void Start()
@@ -166,6 +169,18 @@ public class EnemyHunterBehavior : MonoBehaviour
     private void FixedUpdate()
     {
         MoveNormally();
+        ClampToStartingHeight();
+    }
+
+    // Catches any upward drift (e.g. from collisions) so the ship can sink but never fly.
+    private void ClampToStartingHeight()
+    {
+        if (rb.position.y > startingY)
+        {
+            Vector3 clampedPosition = rb.position;
+            clampedPosition.y = startingY;
+            rb.position = clampedPosition;
+        }
     }
 
     private void MoveNormally()
