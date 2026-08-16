@@ -107,6 +107,10 @@ public class RandomPlaneTransporter : MonoBehaviour
 
         foreach (GameObject hunter in hunters)
         {
+            ShipHitReaction hitReaction = hunter.GetComponent<ShipHitReaction>();
+            if (hitReaction != null && hitReaction.IsSinking)
+                continue;
+
             if (Vector3.Distance(referencePosition, hunter.transform.position) <= hunterDetectionDistance)
                 return true;
         }

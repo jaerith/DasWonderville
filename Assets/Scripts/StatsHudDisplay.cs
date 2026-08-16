@@ -51,4 +51,10 @@ public class StatsHudDisplay : MonoBehaviour
         statusText.text  = "GAME OVER";
         statusText.color = Color.red;
     }
+
+    public void DisplayStatusGameWin()
+    {
+        statusText.text  = "YOU WIN";
+        statusText.color = Color.green;
+    }
 }

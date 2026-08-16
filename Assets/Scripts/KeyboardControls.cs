@@ -12,6 +12,8 @@ public class DebugKeyboardControls : MonoBehaviour
 
     [SerializeField] private UnityEvent onFireDecoy;
 
+    [SerializeField] private UnityEvent onForceWin;
+
     [SerializeField] private UnityEvent onRestartGame;
 
     [SerializeField] private UnityEvent onToggleZoom;
@@ -29,6 +31,11 @@ public class DebugKeyboardControls : MonoBehaviour
         if (Keyboard.current.rKey.wasPressedThisFrame)
         {
             onRestartGame.Invoke();
+        }
+
+        if (Keyboard.current.wKey.wasPressedThisFrame)
+        {
+            onForceWin.Invoke();
         }
 
         // Fire sonar decoy

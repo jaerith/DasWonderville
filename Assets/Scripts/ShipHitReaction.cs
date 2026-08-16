@@ -28,6 +28,14 @@ public class ShipHitReaction : MonoBehaviour
     private int hitCount;
     private bool isSinking;
 
+    public bool IsSinking => isSinking;
+
+    public void DestroyShip()
+    {
+        hitCount = hitsBeforeSinking;
+        RegisterHit(transform.position);
+    }
+
     public void RegisterHit(Vector3 hitPosition)
     {
         Debug.Log("ShipHitReaction: RegisterHit called at position: " + hitPosition);

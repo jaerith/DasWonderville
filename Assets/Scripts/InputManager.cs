@@ -18,6 +18,10 @@ public class InputManager : MonoBehaviour
     [SerializeField] private Transform playerRoot;
     [SerializeField] private StatsHudDisplay statsHudDisplay;
 
+    [Header("Win Condition")]
+    [SerializeField] private GameObject winIndicator;
+    [SerializeField] private float gameCompletionCheckInterval = 2f;
+
     [Header("Sounds")]
     [SerializeField] private AudioClip escapeClip;
     [SerializeField] private AudioClip gameOverClip;
@@ -48,6 +52,7 @@ public class InputManager : MonoBehaviour
     [SerializeField] private float maxDistance = 50f;
 
     private bool gameOverMode;
+    private bool gameCompleteMode;
     private bool wasPressed;
     private bool wasEscapePressed;
     private int shotsInWindow;
@@ -104,6 +109,8 @@ public class InputManager : MonoBehaviour
         fireAction.action?.Enable();
         moveAction.action?.Enable();
         escapeAction.action?.Enable();
+
+        InvokeRepeating(nameof(CheckForGameCompletion), gameCompletionCheckInterval, gameCompletionCheckInterval);
     }
 
     private void OnDisable()
@@ -111,6 +118,8 @@ public class InputManager : MonoBehaviour
         fireAction.action?.Disable();
         moveAction.action?.Disable();
         escapeAction.action?.Disable();
+
+        CancelInvoke(nameof(CheckForGameCompletion));
     }
 
     private void Awake()
@@ -122,6 +131,25 @@ public class InputManager : MonoBehaviour
         HandleMovement();
         HandleFireInput();
         HandleEscape();
+    }
+
+    public void ForceWin()
+    {
+        Camera mainCamera = Camera.main;
+
+        foreach (ShipHitReaction hitReaction in FindObjectsByType<ShipHitReaction>(FindObjectsInactive.Include))
+        {
+            if (hitReaction.GetComponent<EnemyHunterBehavior>() != null)
+                continue;
+
+            if (mainCamera != null && hitReaction.transform.IsChildOf(mainCamera.transform))
+                continue;
+
+            if (hitReaction.IsSinking)
+                continue;
+
+            hitReaction.DestroyShip();
+        }
     }
 
     private void HandleMovement()
@@ -302,6 +330,60 @@ public class InputManager : MonoBehaviour
         yield return new WaitForSeconds(5f);
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void CheckForGameCompletion()
+    {
+        if (gameOverMode || gameCompleteMode)
+            return;
+
+        GameObject[] shipObjects = GameObject.FindGameObjectsWithTag("Ship");
+
+        Camera mainCamera = Camera.main;
+
+        bool allConvoyShipsDestroyed = false;
+
+        foreach (GameObject shipObject in shipObjects)
+        {
+            if (shipObject.GetComponent<EnemyHunterBehavior>() != null)
+                continue;
+
+            if (mainCamera != null && shipObject.transform.IsChildOf(mainCamera.transform))
+                continue;
+
+            ShipHitReaction hitReaction = shipObject.GetComponent<ShipHitReaction>();
+
+            if (hitReaction == null || !hitReaction.IsSinking)
+                return;
+
+            allConvoyShipsDestroyed = true;
+        }
+
+        if (allConvoyShipsDestroyed)
+        {
+            GameCompleted();
+        }
+    }
+
+    public void GameCompleted()
+    {
+        gameCompleteMode = true;
+
+        Debug.Log("Game Completed! You win.");
+
+        CancelInvoke(nameof(CheckForGameCompletion));
+
+        if (statsHudDisplay != null)
+        {
+            statsHudDisplay.DisplayStatusGameWin();
+        }
+
+        if (winIndicator != null)
+        {
+            winIndicator.SetActive(true);
+        }
+
+        StartCoroutine(RestartAfterDelay());
     }
 
     public void Escape()

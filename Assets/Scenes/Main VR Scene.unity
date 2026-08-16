@@ -18846,6 +18846,8 @@ MonoBehaviour:
   viewer: {fileID: 1193809377}
   playerRoot: {fileID: 1976267236}
   statsHudDisplay: {fileID: 3553694143137686320}
+  winIndicator: {fileID: 0}
+  gameCompletionCheckInterval: 2
   escapeClip: {fileID: 8300000, guid: 9805ba3de897fa149a555002736ccaba, type: 3}
   gameOverClip: {fileID: 8300000, guid: b855abb737aac074a862bd757b331603, type: 3}
   moveSpeed: 2.5
@@ -19017,6 +19019,21 @@ MonoBehaviour:
       - m_Target: {fileID: 1646953902}
         m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
         m_MethodName: FireSonarDecoy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onForceWin:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1646953902}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: ForceWin
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -22880,7 +22897,7 @@ Transform:
   m_GameObject: {fileID: 1976267233}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 83.8, y: 0.13, z: -90.2}
+  m_LocalPosition: {x: 83.8, y: 0.05, z: -90.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -31537,7 +31554,7 @@ Transform:
   m_GameObject: {fileID: 5741405877878373913}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.32000005, z: 0.8499985}
+  m_LocalPosition: {x: 0, y: 0.31999993, z: 0.8499985}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -31890,7 +31907,7 @@ Transform:
   m_GameObject: {fileID: 2417954277225301909}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.39999998, z: 0.9000015}
+  m_LocalPosition: {x: 0, y: -0.40000004, z: 0.9000015}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
