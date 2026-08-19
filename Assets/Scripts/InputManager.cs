@@ -19,8 +19,10 @@ public class InputManager : MonoBehaviour
     [SerializeField] private StatsHudDisplay statsHudDisplay;
 
     [Header("Win Condition")]
+    [SerializeField] private AudioClip winClip;
     [SerializeField] private GameObject winIndicator;
     [SerializeField] private float gameCompletionCheckInterval = 2f;
+    [SerializeField] private float winIndicatorDistance = 10f;
 
     [Header("Sounds")]
     [SerializeField] private AudioClip escapeClip;
@@ -309,6 +311,30 @@ public class InputManager : MonoBehaviour
         source.Play();
     }
 
+    private IEnumerator PlayGameWinSound()
+    {
+        yield return new WaitForSeconds(2.0f);
+
+        if (winClip != null)
+        {
+            Debug.Log("Playing win sound...");
+
+            GameObject audioObj = new GameObject("WinSound");
+            audioObj.transform.position = this.gameObject.transform.position;
+
+            AudioSource source = audioObj.AddComponent<AudioSource>();
+            source.clip = winClip;
+            source.volume = 0.7f;
+            source.pitch = 0.6f;
+
+            // Important: make it 2D while testing.
+            source.spatialBlend = 0f;
+            source.loop = false;
+
+            source.Play();
+        }
+    }
+
     public void RestartGame()
     {
         gameOverMode = true;
@@ -327,7 +353,9 @@ public class InputManager : MonoBehaviour
 
     private IEnumerator RestartAfterDelay()
     {
-        yield return new WaitForSeconds(5f);
+        float restartDelay = gameCompleteMode ? 9f : 5f;
+
+        yield return new WaitForSeconds(restartDelay);
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
@@ -380,7 +408,18 @@ public class InputManager : MonoBehaviour
 
         if (winIndicator != null)
         {
-            winIndicator.SetActive(true);
+            Camera mainCamera = Camera.main;
+
+            if (mainCamera != null)
+            {
+                Vector3 spawnPosition = mainCamera.transform.position + mainCamera.transform.forward * winIndicatorDistance;
+                spawnPosition.y = -25f;
+
+                GameObject winIndicatorInstance = Instantiate(winIndicator, spawnPosition, Quaternion.identity);
+                winIndicatorInstance.SetActive(true);
+            }
+
+            StartCoroutine(PlayGameWinSound());
         }
 
         StartCoroutine(RestartAfterDelay());
