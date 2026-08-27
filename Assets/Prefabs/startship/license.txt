@@ -1,0 +1,11 @@
+Model Information:
+* title:	startship - lowpoly
+* source:	https://sketchfab.com/3d-models/startship-lowpoly-4bf213427ca1461d94a65bf365cab90b
+* author:	KirbsBtw (https://sketchfab.com/KirbsBtw)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "startship - lowpoly" (https://sketchfab.com/3d-models/startship-lowpoly-4bf213427ca1461d94a65bf365cab90b) by KirbsBtw (https://sketchfab.com/KirbsBtw) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

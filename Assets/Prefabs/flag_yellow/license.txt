@@ -1,0 +1,11 @@
+Model Information:
+* title:	Flag Lowpoly
+* source:	https://sketchfab.com/3d-models/flag-lowpoly-b945abe55bd54b628f0e006a5966065b
+* author:	Marco Zakaria (https://sketchfab.com/marcoZakaria)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Flag Lowpoly" (https://sketchfab.com/3d-models/flag-lowpoly-b945abe55bd54b628f0e006a5966065b) by Marco Zakaria (https://sketchfab.com/marcoZakaria) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

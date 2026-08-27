@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -14,16 +13,27 @@ public class InputManager : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private GameObject torpedoPrefab;
+    [SerializeField] private GameObject decoyPrefab;
     [SerializeField] private Transform viewer;
     [SerializeField] private Transform playerRoot;
     [SerializeField] private StatsHudDisplay statsHudDisplay;
 
+    [Header("Win Condition")]
+    [SerializeField] private AudioClip winClip;
+    [SerializeField] private GameObject winIndicator;
+    [SerializeField] private float gameCompletionCheckInterval = 2f;
+    [SerializeField] private float winIndicatorDistance = 10f;
+
     [Header("Sounds")]
+    [SerializeField] private AudioClip escapeClip;
     [SerializeField] private AudioClip gameOverClip;
 
     [Header("Player Movement")]
     [SerializeField] private float moveSpeed = 2.5f;
     [SerializeField] private RandomPlaneTransporter transporter;
+
+    [Header("Snap Turn")]
+    [SerializeField] private float snapTurnDegrees = 45f;
 
     [Header("Torpedo Limit")]
     [SerializeField] private int maxTorpedoesPerWindow = 2;
@@ -44,9 +54,11 @@ public class InputManager : MonoBehaviour
     [SerializeField] private float maxDistance = 50f;
 
     private bool gameOverMode;
+    private bool gameCompleteMode;
     private bool wasPressed;
     private bool wasEscapePressed;
-    private readonly Queue<float> fireTimes = new Queue<float>();
+    private int shotsInWindow;
+    private float fireWindowStartTime = float.MinValue;
     private float lastEscapeTime = float.MinValue;
 
     public float TorpedoReloadSecondsRemaining
@@ -54,29 +66,53 @@ public class InputManager : MonoBehaviour
         get
         {
             float now = Time.time;
-            int activeCount = 0;
-            float oldestActive = float.MaxValue;
-            foreach (float t in fireTimes)
-            {
-                if (now - t <= fireWindowSeconds)
-                {
-                    activeCount++;
-                    if (t < oldestActive) oldestActive = t;
-                }
-            }
-            if (activeCount < maxTorpedoesPerWindow) return 0f;
-            return Mathf.Max(0f, fireWindowSeconds - (now - oldestActive));
+
+            if (now - fireWindowStartTime >= fireWindowSeconds)
+                return 0f;
+
+            if (shotsInWindow < maxTorpedoesPerWindow)
+                return 0f;
+
+            return Mathf.Max(0f, fireWindowSeconds - (now - fireWindowStartTime));
         }
     }
 
     public float EscapeReloadSecondsRemaining =>
         Mathf.Max(0f, escapeWindowSeconds - (Time.time - lastEscapeTime));
 
+    public Transform Viewer => viewer;
+    public float TorpedoSpeed => speed;
+    public float TorpedoMaxDistance => maxDistance;
+
+    public Vector3 GetTorpedoLaunchDirection()
+    {
+        if (viewer == null)
+            return transform.forward;
+
+        Vector3 flatForward = viewer.forward;
+        flatForward.y = 0f;
+
+        if (flatForward.sqrMagnitude < 0.001f)
+            flatForward = transform.forward;
+
+        flatForward.Normalize();
+        return flatForward;
+    }
+
+    public Vector3 GetTorpedoSpawnPosition(Vector3 launchDirection)
+    {
+        return viewer.position +
+            launchDirection * launchDistanceInFront +
+            Vector3.up * spawnYOffset;
+    }
+
     private void OnEnable()
     {
         fireAction.action?.Enable();
         moveAction.action?.Enable();
         escapeAction.action?.Enable();
+
+        InvokeRepeating(nameof(CheckForGameCompletion), gameCompletionCheckInterval, gameCompletionCheckInterval);
     }
 
     private void OnDisable()
@@ -84,6 +120,8 @@ public class InputManager : MonoBehaviour
         fireAction.action?.Disable();
         moveAction.action?.Disable();
         escapeAction.action?.Disable();
+
+        CancelInvoke(nameof(CheckForGameCompletion));
     }
 
     private void Awake()
@@ -95,6 +133,25 @@ public class InputManager : MonoBehaviour
         HandleMovement();
         HandleFireInput();
         HandleEscape();
+    }
+
+    public void ForceWin()
+    {
+        Camera mainCamera = Camera.main;
+
+        foreach (ShipHitReaction hitReaction in FindObjectsByType<ShipHitReaction>(FindObjectsInactive.Include))
+        {
+            if (hitReaction.GetComponent<EnemyHunterBehavior>() != null)
+                continue;
+
+            if (mainCamera != null && hitReaction.transform.IsChildOf(mainCamera.transform))
+                continue;
+
+            if (hitReaction.IsSinking)
+                continue;
+
+            hitReaction.DestroyShip();
+        }
     }
 
     private void HandleMovement()
@@ -115,6 +172,24 @@ public class InputManager : MonoBehaviour
 
         Vector3 movement = forward * input.y + right * input.x;
         playerRoot.position += movement * moveSpeed * Time.deltaTime;
+    }
+
+    public void SnapTurnRight()
+    {
+        SnapTurn(snapTurnDegrees);
+    }
+
+    public void SnapTurnLeft()
+    {
+        SnapTurn(-snapTurnDegrees);
+    }
+
+    private void SnapTurn(float degrees)
+    {
+        if (playerRoot == null)
+            return;
+
+        playerRoot.Rotate(Vector3.up, degrees, Space.World);
     }
 
     private void HandleEscape()
@@ -160,6 +235,9 @@ public class InputManager : MonoBehaviour
         if (transporter == null)
             return false;
 
+        if (transporter.IsTransporting)
+            return false;
+
         if (Time.time - lastEscapeTime < escapeWindowSeconds)
             return false;
 
@@ -169,16 +247,46 @@ public class InputManager : MonoBehaviour
 
     private bool CanFireTorpedo()
     {
-        float now = Time.time;
-
-        while (fireTimes.Count > 0 && now - fireTimes.Peek() > fireWindowSeconds)
-            fireTimes.Dequeue();
-
-        if (fireTimes.Count >= maxTorpedoesPerWindow)
+        if (transporter != null && transporter.IsTransporting)
             return false;
 
-        fireTimes.Enqueue(now);
+        float now = Time.time;
+
+        if (now - fireWindowStartTime >= fireWindowSeconds)
+        {
+            fireWindowStartTime = now;
+            shotsInWindow = 0;
+        }
+
+        if (shotsInWindow >= maxTorpedoesPerWindow)
+            return false;
+
+        shotsInWindow++;
         return true;
+    }
+
+    public void PlayEscapeSound()
+    {
+        if (escapeClip == null)
+            return;
+
+        GameObject audioObj = new GameObject("DiveAlarmSound");
+        audioObj.transform.position = this.gameObject.transform.position;
+
+        AudioSource source = audioObj.AddComponent<AudioSource>();
+        source.clip = escapeClip;
+        source.volume = 0.7f;
+        source.pitch = 0.6f;
+
+        // Important: make it 2D while testing.
+        source.spatialBlend = 0f;
+
+        source.playOnAwake = false;
+        source.loop = false;
+
+        source.Play();
+
+        Destroy(audioObj, escapeClip.length + 1.0f);
     }
 
     public void PlayGameOverSound()
@@ -203,6 +311,30 @@ public class InputManager : MonoBehaviour
         source.Play();
     }
 
+    private IEnumerator PlayGameWinSound()
+    {
+        yield return new WaitForSeconds(2.0f);
+
+        if (winClip != null)
+        {
+            Debug.Log("Playing win sound...");
+
+            GameObject audioObj = new GameObject("WinSound");
+            audioObj.transform.position = this.gameObject.transform.position;
+
+            AudioSource source = audioObj.AddComponent<AudioSource>();
+            source.clip = winClip;
+            source.volume = 0.7f;
+            source.pitch = 0.6f;
+
+            // Important: make it 2D while testing.
+            source.spatialBlend = 0f;
+            source.loop = false;
+
+            source.Play();
+        }
+    }
+
     public void RestartGame()
     {
         gameOverMode = true;
@@ -221,14 +353,82 @@ public class InputManager : MonoBehaviour
 
     private IEnumerator RestartAfterDelay()
     {
-        yield return new WaitForSeconds(5f);
+        float restartDelay = gameCompleteMode ? 9f : 5f;
+
+        yield return new WaitForSeconds(restartDelay);
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void CheckForGameCompletion()
+    {
+        if (gameOverMode || gameCompleteMode)
+            return;
+
+        GameObject[] shipObjects = GameObject.FindGameObjectsWithTag("Ship");
+
+        Camera mainCamera = Camera.main;
+
+        bool allConvoyShipsDestroyed = false;
+
+        foreach (GameObject shipObject in shipObjects)
+        {
+            if (shipObject.GetComponent<EnemyHunterBehavior>() != null)
+                continue;
+
+            if (mainCamera != null && shipObject.transform.IsChildOf(mainCamera.transform))
+                continue;
+
+            ShipHitReaction hitReaction = shipObject.GetComponent<ShipHitReaction>();
+
+            if (hitReaction == null || !hitReaction.IsSinking)
+                return;
+
+            allConvoyShipsDestroyed = true;
+        }
+
+        if (allConvoyShipsDestroyed)
+        {
+            GameCompleted();
+        }
+    }
+
+    public void GameCompleted()
+    {
+        gameCompleteMode = true;
+
+        Debug.Log("Game Completed! You win.");
+
+        CancelInvoke(nameof(CheckForGameCompletion));
+
+        if (statsHudDisplay != null)
+        {
+            statsHudDisplay.DisplayStatusGameWin();
+        }
+
+        if (winIndicator != null)
+        {
+            Camera mainCamera = Camera.main;
+
+            if (mainCamera != null)
+            {
+                Vector3 spawnPosition = mainCamera.transform.position + mainCamera.transform.forward * winIndicatorDistance;
+                spawnPosition.y = -25f;
+
+                GameObject winIndicatorInstance = Instantiate(winIndicator, spawnPosition, Quaternion.identity);
+                winIndicatorInstance.SetActive(true);
+            }
+
+            StartCoroutine(PlayGameWinSound());
+        }
+
+        StartCoroutine(RestartAfterDelay());
     }
 
     public void Escape()
     {
         // NOTE: Future escape behavior will be implemented here.
+        PlayEscapeSound();
         transporter.RandomTransport();
         Debug.Log("Escape triggered!");
     }
@@ -238,6 +438,36 @@ public class InputManager : MonoBehaviour
         if (torpedoPrefab == null || viewer == null)
         {
             Debug.LogWarning("TorpedoLauncher is missing torpedoPrefab or viewer.");
+            return;
+        }
+
+        Vector3 flatForward = GetTorpedoLaunchDirection();
+        Vector3 spawnPosition = GetTorpedoSpawnPosition(flatForward);
+
+        Quaternion baseRotation = Quaternion.LookRotation(flatForward, Vector3.up);
+        Quaternion spawnRotation = baseRotation * Quaternion.Euler(launchRotationOffsetEuler);
+
+        GameObject torpedo = Instantiate(torpedoPrefab, spawnPosition, spawnRotation);
+
+        TorpedoMover mover = torpedo.GetComponent<TorpedoMover>();
+        if (mover == null)
+            mover = torpedo.AddComponent<TorpedoMover>();
+
+        torpedo.SetActive(true);
+        mover.Initialize(flatForward, speed, maxDistance);
+    }
+
+    public void FireSonarDecoy()
+    {
+        if (decoyPrefab == null || viewer == null)
+        {
+            Debug.LogWarning("DecoyLauncher is missing decoyPrefab or viewer.");
+            return;
+        }
+
+        if (!CanFireTorpedo())
+        {
+            Debug.Log("Torpedo reload window active.");
             return;
         }
 
@@ -257,13 +487,13 @@ public class InputManager : MonoBehaviour
         Quaternion baseRotation = Quaternion.LookRotation(flatForward, Vector3.up);
         Quaternion spawnRotation = baseRotation * Quaternion.Euler(launchRotationOffsetEuler);
 
-        GameObject torpedo = Instantiate(torpedoPrefab, spawnPosition, spawnRotation);
+        GameObject decoy = Instantiate(decoyPrefab, spawnPosition, spawnRotation);
 
-        TorpedoMover mover = torpedo.GetComponent<TorpedoMover>();
+        TorpedoMover mover = decoy.GetComponent<TorpedoMover>();
         if (mover == null)
-            mover = torpedo.AddComponent<TorpedoMover>();
+            mover = decoy.AddComponent<TorpedoMover>();
 
-        torpedo.SetActive(true);
+        decoy.SetActive(true);
         mover.Initialize(flatForward, speed, maxDistance);
     }
 

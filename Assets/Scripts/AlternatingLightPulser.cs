@@ -16,6 +16,11 @@ public class AlternatingLightPulser : MonoBehaviour
 
     private Coroutine pulseCoroutine;
 
+    private void OnEnable()
+    {
+        Play();
+    }
+
     private void OnDisable()
     {
         Stop();
@@ -27,12 +32,12 @@ public class AlternatingLightPulser : MonoBehaviour
     {
         if (lightA == null || lightB == null)
         {
-            Debug.LogWarning("AlternatingLightPulser is missing one or more Light references.");
+            // Debug.LogWarning("AlternatingLightPulser is missing one or more Light references.");
             return;
         }
         else
         {
-            Debug.LogWarning("AlternatingLightPulser is playing.");
+            // Debug.LogWarning("AlternatingLightPulser is playing.");
         }
 
         Stop();

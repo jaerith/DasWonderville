@@ -1,4 +1,5 @@
 {
+    "version": 1,
     "name": "XRI Default Input Actions",
     "maps": [
         {
@@ -1123,6 +1124,17 @@
                 },
                 {
                     "name": "",
+                    "id": "1eeaa32e-e110-4d9a-9351-34ec3ce770d2",
+                    "path": "<Keyboard>/#(F)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Activate Value",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "b34c79c1-ab5e-4851-87ac-abc43705eae0",
                     "path": "<XRController>{LeftHand}/{TriggerButton}",
                     "interactions": "",
@@ -2207,6 +2219,17 @@
                     "name": "",
                     "id": "150f414f-61bf-47b1-b4f8-f772a2a40565",
                     "path": "<XRController>{RightHand}/{Trigger}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Activate Value",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9c7c1691-3644-4c4b-93ba-7a0ab3b007df",
+                    "path": "<Keyboard>/#(A)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

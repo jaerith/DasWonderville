@@ -1,9 +1,12 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody))]
 public class EnemyHunterBehavior : MonoBehaviour
 {
+    private const float PlayerFacingOffsetDegrees = 10f;
+
     [Header("Normal Movement")]
     [SerializeField] private bool useLocalBow = true;
     [SerializeField] private Vector3 worldBowDirection = new Vector3(0f, 0f, 1f);
@@ -15,6 +18,7 @@ public class EnemyHunterBehavior : MonoBehaviour
     [SerializeField] private float driftDirection = 0.2f;
 
     [Header("Alert Behavior")]
+    [SerializeField] private GameObject depthChargeIndicator;
     [SerializeField] private AlternatingLightPulser lightPulser;
     [SerializeField] private Transform player;
     [SerializeField] private float pursuitSpeed = 3f;
@@ -35,12 +39,42 @@ public class EnemyHunterBehavior : MonoBehaviour
     [Header("Torpedo Rotation Settings")]
     [SerializeField] private Vector3 launchRotationOffsetEuler = new Vector3(0f, 90f, 0f);
 
+    [Header("Random Placement")]
+    [SerializeField] private bool randomizePositionOnStart = false;
+    [SerializeField] private Transform cornerA;
+    [SerializeField] private Transform cornerB;
+    [SerializeField] private Transform cornerC;
+    [SerializeField] private Transform cornerD;
+    [SerializeField] private RandomPlaneTransporter playerRandomPlaneTransporter;
+
+    [Header("Depth Charge Detection")]
+    [SerializeField] private float depthChargeCheckIntervalSeconds = 1f;
 
     private Rigidbody rb;
     private Collider[] ownColliders;
+    private float startingY;
 
     public bool isAlerted { get; protected set; } = false;
+    public bool isSinking { get; protected set; } = false;
     private float nextFireTime;
+
+    public float PursuitSpeed
+    {
+        get => pursuitSpeed;
+        set => pursuitSpeed = value;
+    }
+
+    public float RotationSpeed
+    {
+        get => rotationSpeed;
+        set => rotationSpeed = value;
+    }
+
+    public float FireIntervalSeconds
+    {
+        get => fireIntervalSeconds;
+        set => fireIntervalSeconds = value;
+    }
 
     private void Awake()
     {
@@ -49,6 +83,80 @@ public class EnemyHunterBehavior : MonoBehaviour
         rb.useGravity = false;
         rb.interpolation = RigidbodyInterpolation.Interpolate;
         ownColliders = GetComponentsInChildren<Collider>(true);
+
+        if (randomizePositionOnStart)
+            RelocateWithinPlaneCorners();
+
+        startingY = rb.position.y;
+    }
+
+    private void Start()
+    {
+        StartCoroutine(CheckPlayerDistanceForDepthCharges());
+    }
+
+    private IEnumerator CheckPlayerDistanceForDepthCharges()
+    {
+        WaitForSeconds wait = new WaitForSeconds(depthChargeCheckIntervalSeconds);
+
+        while (true)
+        {
+            if (depthChargeIndicator != null && player != null && playerRandomPlaneTransporter != null)
+            {
+                float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+                bool withinRange = distanceToPlayer <= playerRandomPlaneTransporter.HunterDetectionDistanceForDepthCharges;
+
+                if (depthChargeIndicator.activeSelf != withinRange)
+                    depthChargeIndicator.SetActive(withinRange);
+            }
+
+            yield return wait;
+        }
+    }
+
+    private void RelocateWithinPlaneCorners()
+    {
+        if (cornerA == null || cornerB == null || cornerC == null || cornerD == null)
+            return;
+
+        Debug.Log("EnemyHunterBehavior: relocating (" + this.gameObject.name + ") within plane corners.");
+
+        Debug.Log("EnemyHunterBehavior: ship (" + this.gameObject.name+ ") => current position = " + transform.position);
+
+        float u = Random.value;
+        float v = Random.value;
+
+        Vector3 bottomEdge = Vector3.Lerp(cornerA.position, cornerB.position, u);
+        Vector3 topEdge = Vector3.Lerp(cornerD.position, cornerC.position, u);
+
+        Vector3 randomPosition = Vector3.Lerp(bottomEdge, topEdge, v);
+
+        randomPosition.y = transform.position.y;
+        transform.position = randomPosition;
+
+        // rb.isKinematic Rigidbodies cache their own position separately from the
+        // Transform. Without this, rb.position still reports the pre-relocation
+        // spot until physics syncs on its own schedule, so the very first
+        // MoveNormally() call in FixedUpdate reads the stale rb.position and
+        // moves from there — visually snapping the ship back to where it started.
+        rb.position = randomPosition;
+
+        if (player != null)
+        {
+            Vector3 toPlayer = player.position - transform.position;
+            toPlayer.y = 0f;
+
+            if (toPlayer.sqrMagnitude > 0.0001f)
+            {
+                Quaternion facePlayer = Quaternion.LookRotation(toPlayer.normalized, Vector3.up);
+                Quaternion facing = facePlayer * Quaternion.Euler(0f, PlayerFacingOffsetDegrees, 0f);
+
+                transform.rotation = facing;
+                rb.rotation = facing;
+            }
+        }
+
+        Debug.Log("EnemyHunterBehavior: ship (" + this.gameObject.name + ") => after relocation = " + transform.position);
     }
 
     private void Update()
@@ -61,13 +169,25 @@ public class EnemyHunterBehavior : MonoBehaviour
     private void FixedUpdate()
     {
         MoveNormally();
+        ClampToStartingHeight();
+    }
+
+    // Catches any upward drift (e.g. from collisions) so the ship can sink but never fly.
+    private void ClampToStartingHeight()
+    {
+        if (rb.position.y > startingY)
+        {
+            Vector3 clampedPosition = rb.position;
+            clampedPosition.y = startingY;
+            rb.position = clampedPosition;
+        }
     }
 
     private void MoveNormally()
     {
         Quaternion newRot = rb.rotation;
 
-        if (isAlerted && player != null)
+        if (!isSinking && isAlerted && player != null)
         {
             if (lightPulser != null && !lightPulser.IsPulsing)
             {
@@ -115,8 +235,26 @@ public class EnemyHunterBehavior : MonoBehaviour
         if (Time.time < nextFireTime)
             return;
 
+        if (!IsBowAimedAtPlayer())
+            return;
+
         FireTorpedoAtPlayer();
         nextFireTime = Time.time + fireIntervalSeconds;
+    }
+
+    private bool IsBowAimedAtPlayer()
+    {
+        if (player == null) return false;
+
+        Vector3 toPlayer = player.position - rb.position;
+        toPlayer.y = 0f;
+        if (toPlayer.sqrMagnitude < 0.0001f) return false;
+
+        Vector3 bowForward = rb.rotation * Vector3.forward;
+        bowForward.y = 0f;
+        bowForward.Normalize();
+
+        return Vector3.Angle(bowForward, toPlayer.normalized) <= 25f;
     }
 
     private void FireTorpedoAtPlayer()
@@ -212,4 +350,10 @@ public class EnemyHunterBehavior : MonoBehaviour
     {
         AlertDestroyer();
     }
+
+    public void IndicateShipIsSinking()
+    {
+        isSinking = true;
+    }
+
 }
