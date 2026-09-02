@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -8,8 +9,13 @@ public class InputManager : MonoBehaviour
 {
     [Header("Input")]
     [SerializeField] private InputActionProperty fireAction;
+    [SerializeField] private InputActionProperty fireDecoyAction;
     [SerializeField] private InputActionProperty moveAction;
     [SerializeField] private InputActionProperty escapeAction;
+    [SerializeField] private InputActionProperty scopeAction;
+
+    [Header("Events")]
+    [SerializeField] private UnityEvent scopeEvent;
 
     [Header("References")]
     [SerializeField] private GameObject torpedoPrefab;
@@ -55,8 +61,10 @@ public class InputManager : MonoBehaviour
 
     private bool gameOverMode;
     private bool gameCompleteMode;
-    private bool wasPressed;
+    private bool wasFirePressed;
+    private bool wasFireDecoyPressed;
     private bool wasEscapePressed;
+    private bool wasScopePressed;
     private int shotsInWindow;
     private float fireWindowStartTime = float.MinValue;
     private float lastEscapeTime = float.MinValue;
@@ -109,8 +117,10 @@ public class InputManager : MonoBehaviour
     private void OnEnable()
     {
         fireAction.action?.Enable();
+        fireDecoyAction.action?.Enable();
         moveAction.action?.Enable();
         escapeAction.action?.Enable();
+        scopeAction.action?.Enable();
 
         InvokeRepeating(nameof(CheckForGameCompletion), gameCompletionCheckInterval, gameCompletionCheckInterval);
     }
@@ -118,8 +128,10 @@ public class InputManager : MonoBehaviour
     private void OnDisable()
     {
         fireAction.action?.Disable();
+        fireDecoyAction.action?.Disable();
         moveAction.action?.Disable();
         escapeAction.action?.Disable();
+        scopeAction.action?.Disable();
 
         CancelInvoke(nameof(CheckForGameCompletion));
     }
@@ -132,7 +144,9 @@ public class InputManager : MonoBehaviour
     {
         HandleMovement();
         HandleFireInput();
+        HandleFireDecoyInput();
         HandleEscape();
+        HandleScope();
     }
 
     public void ForceWin()
@@ -219,7 +233,7 @@ public class InputManager : MonoBehaviour
 
         bool isPressed = value > 0f;
 
-        if (isPressed && !wasPressed)
+        if (isPressed && !wasFirePressed)
         {
             if (CanFireTorpedo())
                 FireTorpedo();
@@ -227,7 +241,43 @@ public class InputManager : MonoBehaviour
                 Debug.Log("Torpedo reload window active.");
         }
 
-        wasPressed = isPressed;
+        wasFirePressed = isPressed;
+    }
+
+    private void HandleFireDecoyInput()
+    {
+        float value = fireDecoyAction.action != null
+            ? fireDecoyAction.action.ReadValue<float>()
+            : 0f;
+
+        bool isPressed = value > 0f;
+
+        if (isPressed && !wasFireDecoyPressed)
+        {
+            if (CanFireTorpedo())
+                FireSonarDecoy();
+            else
+                Debug.Log("Torpedo reload window active.");
+        }
+
+        wasFireDecoyPressed = isPressed;
+    }
+
+    private void HandleScope()
+    {       
+        float value = scopeAction.action != null
+            ? scopeAction.action.ReadValue<float>()
+            : 0f;
+
+        bool isPressed = value > 0f;
+
+        if (isPressed && !wasScopePressed)
+        {
+            Debug.Log("Scope window triggered.");
+            scopeEvent?.Invoke();
+        }
+
+        wasScopePressed = isPressed;
     }
 
     private bool CanEscape()
