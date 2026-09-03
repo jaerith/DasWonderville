@@ -13,6 +13,7 @@ public class InputManager : MonoBehaviour
     [SerializeField] private InputActionProperty moveAction;
     [SerializeField] private InputActionProperty escapeAction;
     [SerializeField] private InputActionProperty scopeAction;
+    [SerializeField] private InputActionProperty snapTurnAction;
 
     [Header("Events")]
     [SerializeField] private UnityEvent scopeEvent;
@@ -40,6 +41,7 @@ public class InputManager : MonoBehaviour
 
     [Header("Snap Turn")]
     [SerializeField] private float snapTurnDegrees = 45f;
+    [SerializeField] private float snapTurnDeadzone = 0.5f;
 
     [Header("Torpedo Limit")]
     [SerializeField] private int maxTorpedoesPerWindow = 2;
@@ -65,6 +67,7 @@ public class InputManager : MonoBehaviour
     private bool wasFireDecoyPressed;
     private bool wasEscapePressed;
     private bool wasScopePressed;
+    private bool snapTurnAtRest = true;
     private int shotsInWindow;
     private float fireWindowStartTime = float.MinValue;
     private float lastEscapeTime = float.MinValue;
@@ -121,6 +124,7 @@ public class InputManager : MonoBehaviour
         moveAction.action?.Enable();
         escapeAction.action?.Enable();
         scopeAction.action?.Enable();
+        snapTurnAction.action?.Enable();
 
         InvokeRepeating(nameof(CheckForGameCompletion), gameCompletionCheckInterval, gameCompletionCheckInterval);
     }
@@ -132,6 +136,7 @@ public class InputManager : MonoBehaviour
         moveAction.action?.Disable();
         escapeAction.action?.Disable();
         scopeAction.action?.Disable();
+        snapTurnAction.action?.Disable();
 
         CancelInvoke(nameof(CheckForGameCompletion));
     }
@@ -147,6 +152,7 @@ public class InputManager : MonoBehaviour
         HandleFireDecoyInput();
         HandleEscape();
         HandleScope();
+        HandleSnapTurnInput();
     }
 
     public void ForceWin()
@@ -204,6 +210,32 @@ public class InputManager : MonoBehaviour
             return;
 
         playerRoot.Rotate(Vector3.up, degrees, Space.World);
+    }
+
+    private void HandleSnapTurnInput()
+    {
+        if (snapTurnAction.action == null)
+            return;
+
+        float x = snapTurnAction.action.ReadValue<Vector2>().x;
+
+        if (snapTurnAtRest)
+        {
+            if (x <= -snapTurnDeadzone)
+            {
+                SnapTurnLeft();
+                snapTurnAtRest = false;
+            }
+            else if (x >= snapTurnDeadzone)
+            {
+                SnapTurnRight();
+                snapTurnAtRest = false;
+            }
+        }
+        else if (Mathf.Abs(x) < snapTurnDeadzone)
+        {
+            snapTurnAtRest = true;
+        }
     }
 
     private void HandleEscape()

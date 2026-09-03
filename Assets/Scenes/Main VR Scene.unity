@@ -18865,6 +18865,18 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 6558622148059887818, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  snapTurnAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Snap Turn
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: e2d119de-5a82-4733-aff2-c191e50d08c7
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -8525429354371678379, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   scopeEvent:
     m_PersistentCalls:
       m_Calls:
@@ -18894,6 +18906,7 @@ MonoBehaviour:
   moveSpeed: 2.5
   transporter: {fileID: 1646953904}
   snapTurnDegrees: 45
+  snapTurnDeadzone: 0.5
   maxTorpedoesPerWindow: 2
   fireWindowSeconds: 15
   escapeWindowSeconds: 30
