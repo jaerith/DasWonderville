@@ -18,6 +18,12 @@ public class InputManager : MonoBehaviour
     [Header("Events")]
     [SerializeField] private UnityEvent scopeEvent;
 
+    [Header("Settings")] public bool difficultMode = true;
+
+    [Header("HUD")]
+    [SerializeField] public GameObject workingSonarScope;
+    [SerializeField] public GameObject brokenSonarScope;
+
     [Header("References")]
     [SerializeField] private GameObject torpedoPrefab;
     [SerializeField] private GameObject decoyPrefab;

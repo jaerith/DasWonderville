@@ -4953,6 +4953,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7619219826944719737, guid: 5c62680a09059eb4e9869fab99fbe813, type: 3}
   m_PrefabInstance: {fileID: 450931140}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &450931142 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 572058931164115090, guid: 5c62680a09059eb4e9869fab99fbe813, type: 3}
+  m_PrefabInstance: {fileID: 450931140}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &465940552
 GameObject:
   m_ObjectHideFlags: 0
@@ -17381,7 +17386,7 @@ GameObject:
   - component: {fileID: 1497391245}
   - component: {fileID: 1497391244}
   m_Layer: 5
-  m_Name: PF_RadarHUD
+  m_Name: PF_SonarHUD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19031,6 +19036,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  difficultMode: 1
+  workingSonarScope: {fileID: 1497391242}
+  brokenSonarScope: {fileID: 450931142}
   torpedoPrefab: {fileID: 1683097858}
   decoyPrefab: {fileID: 1944369945}
   viewer: {fileID: 1193809377}

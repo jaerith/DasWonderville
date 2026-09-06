@@ -180,6 +180,20 @@ public class RandomPlaneTransporter : MonoBehaviour
         Debug.Log($"Applying random damage: {damage}");
 
         healhBarDisplay.ApplyDamage(damage);
+
+        if (healhBarDisplay.CurrentHealth < 50f)
+        {
+            InputManager inputManager = GetComponent<InputManager>();
+
+            if (inputManager != null && inputManager.difficultMode)
+            {
+                if (inputManager.brokenSonarScope != null)
+                    inputManager.brokenSonarScope.SetActive(true);
+
+                if (inputManager.workingSonarScope != null)
+                    inputManager.workingSonarScope.SetActive(false);
+            }
+        }
     }
 
     private Vector3 GetRandomPointInPlane()
