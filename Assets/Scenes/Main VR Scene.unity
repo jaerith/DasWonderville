@@ -3098,6 +3098,7 @@ MonoBehaviour:
   sinkSpeed: 0.2
   rotateWhileSinking: 1
   sinkingRotationPerSecond: {x: 0, y: 0, z: 0.1}
+  maxSinkingRotationDegrees: 15
 --- !u!114 &304173688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5797,6 +5798,7 @@ MonoBehaviour:
   sinkSpeed: 0.2
   rotateWhileSinking: 1
   sinkingRotationPerSecond: {x: 0, y: 0, z: 0.1}
+  maxSinkingRotationDegrees: 15
 --- !u!114 &544012230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6258,6 +6260,7 @@ MonoBehaviour:
   sinkSpeed: 0.1
   rotateWhileSinking: 1
   sinkingRotationPerSecond: {x: 0, y: 0, z: 0.25}
+  maxSinkingRotationDegrees: 15
 --- !u!1 &556956163
 GameObject:
   m_ObjectHideFlags: 0
@@ -6538,6 +6541,7 @@ MonoBehaviour:
   sinkSpeed: 0.2
   rotateWhileSinking: 1
   sinkingRotationPerSecond: {x: 0, y: 0, z: 0.1}
+  maxSinkingRotationDegrees: 15
 --- !u!114 &578776883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7975,6 +7979,7 @@ MonoBehaviour:
   sinkSpeed: 0.2
   rotateWhileSinking: 1
   sinkingRotationPerSecond: {x: 0, y: 0, z: 0.1}
+  maxSinkingRotationDegrees: 15
 --- !u!114 &694329293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10413,6 +10418,7 @@ MonoBehaviour:
   sinkSpeed: 0.2
   rotateWhileSinking: 1
   sinkingRotationPerSecond: {x: 0, y: 0, z: 0.1}
+  maxSinkingRotationDegrees: 15
 --- !u!114 &909383602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11518,6 +11524,7 @@ MonoBehaviour:
   sinkSpeed: 0.1
   rotateWhileSinking: 1
   sinkingRotationPerSecond: {x: 0, y: 0, z: 0.25}
+  maxSinkingRotationDegrees: 15
 --- !u!54 &1048375557
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -12764,6 +12771,7 @@ MonoBehaviour:
   sinkSpeed: 0.1
   rotateWhileSinking: 1
   sinkingRotationPerSecond: {x: 0, y: 0, z: 0.1}
+  maxSinkingRotationDegrees: 15
 --- !u!114 &1160265429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13839,6 +13847,7 @@ MonoBehaviour:
   sinkSpeed: 0.05
   rotateWhileSinking: 1
   sinkingRotationPerSecond: {x: 0, y: 0, z: 0.1}
+  maxSinkingRotationDegrees: 15
 --- !u!1 &1228328347
 GameObject:
   m_ObjectHideFlags: 0
@@ -13903,6 +13912,7 @@ MonoBehaviour:
   sinkSpeed: 0.2
   rotateWhileSinking: 1
   sinkingRotationPerSecond: {x: 0, y: 0, z: 0.1}
+  maxSinkingRotationDegrees: 15
 --- !u!114 &1228328350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14490,6 +14500,7 @@ MonoBehaviour:
   sinkSpeed: 0.1
   rotateWhileSinking: 1
   sinkingRotationPerSecond: {x: 0, y: 0, z: 0.25}
+  maxSinkingRotationDegrees: 15
 --- !u!1001 &1270130209
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14748,6 +14759,7 @@ MonoBehaviour:
   sinkSpeed: 0.2
   rotateWhileSinking: 1
   sinkingRotationPerSecond: {x: 0, y: 0, z: 0.1}
+  maxSinkingRotationDegrees: 15
 --- !u!114 &1281679402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16617,6 +16629,7 @@ MonoBehaviour:
   sinkSpeed: 0.2
   rotateWhileSinking: 1
   sinkingRotationPerSecond: {x: 0, y: 0, z: 0.1}
+  maxSinkingRotationDegrees: 15
 --- !u!114 &1465074192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19039,6 +19052,11 @@ MonoBehaviour:
   difficultMode: 0
   workingSonarScope: {fileID: 1497391242}
   brokenSonarScope: {fileID: 450931142}
+  dimmedAmbientIntensity: 0.02
+  dimmedDirectionalLightIntensity: 0.02
+  dimmedFogColor: {r: 0.01, g: 0.01, b: 0.02, a: 1}
+  dimmedFogDensity: 0.15
+  dimmedWaterColor: {r: 0.005, g: 0.005, b: 0.008, a: 1}
   torpedoPrefab: {fileID: 1683097858}
   decoyPrefab: {fileID: 1944369945}
   viewer: {fileID: 1193809377}
@@ -19693,6 +19711,7 @@ MonoBehaviour:
   sinkSpeed: 0.2
   rotateWhileSinking: 1
   sinkingRotationPerSecond: {x: 0, y: 0, z: 0.1}
+  maxSinkingRotationDegrees: 15
 --- !u!54 &1675003001
 Rigidbody:
   m_ObjectHideFlags: 0
