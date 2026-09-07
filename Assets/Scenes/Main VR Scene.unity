@@ -19036,7 +19036,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  difficultMode: 1
+  difficultMode: 0
   workingSonarScope: {fileID: 1497391242}
   brokenSonarScope: {fileID: 450931142}
   torpedoPrefab: {fileID: 1683097858}

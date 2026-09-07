@@ -185,14 +185,31 @@ public class RandomPlaneTransporter : MonoBehaviour
         {
             InputManager inputManager = GetComponent<InputManager>();
 
-            if (inputManager != null && inputManager.difficultMode)
+            if (inputManager != null)
             {
-                if (inputManager.brokenSonarScope != null)
-                    inputManager.brokenSonarScope.SetActive(true);
+                if (inputManager.difficultMode)
+                {
+                    DimAmbientLight();
+                }
+                else
+                {
+                    if (inputManager.brokenSonarScope != null)
+                        inputManager.brokenSonarScope.SetActive(true);
 
-                if (inputManager.workingSonarScope != null)
-                    inputManager.workingSonarScope.SetActive(false);
+                    if (inputManager.workingSonarScope != null)
+                        inputManager.workingSonarScope.SetActive(false);
+                }                
             }
+        }
+    }
+
+    public void DimAmbientLight()
+    {
+        InputManager inputManager = GetComponent<InputManager>();
+
+        if (inputManager != null)
+        {
+            inputManager.DimAmbientLight();
         }
     }
 

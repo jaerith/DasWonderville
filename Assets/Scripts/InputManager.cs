@@ -24,6 +24,13 @@ public class InputManager : MonoBehaviour
     [SerializeField] public GameObject workingSonarScope;
     [SerializeField] public GameObject brokenSonarScope;
 
+    [Header("Ambient Lighting")]
+    [SerializeField] private float dimmedAmbientIntensity = 0.02f;
+    [SerializeField] private float dimmedDirectionalLightIntensity = 0.02f;
+    [SerializeField] private Color dimmedFogColor = new Color(0.01f, 0.01f, 0.02f);
+    [SerializeField] private float dimmedFogDensity = 0.15f;
+    [SerializeField] private Color dimmedWaterColor = new Color(0.005f, 0.005f, 0.008f);
+
     [Header("References")]
     [SerializeField] private GameObject torpedoPrefab;
     [SerializeField] private GameObject decoyPrefab;
@@ -216,6 +223,44 @@ public class InputManager : MonoBehaviour
             return;
 
         playerRoot.Rotate(Vector3.up, degrees, Space.World);
+    }
+
+    public void DimAmbientLight()
+    {
+        RenderSettings.ambientIntensity = dimmedAmbientIntensity;
+        RenderSettings.ambientLight = new Color(dimmedAmbientIntensity, dimmedAmbientIntensity, dimmedAmbientIntensity);
+
+        Debug.Log("Ambient intensity set to [" + dimmedAmbientIntensity + "]");
+
+        foreach (Light sceneLight in FindObjectsByType<Light>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+            if (sceneLight.type == LightType.Directional)
+                sceneLight.intensity = dimmedDirectionalLightIntensity;
+        }
+
+        RenderSettings.fog = true;
+        RenderSettings.fogMode = FogMode.Exponential;
+        RenderSettings.fogColor = dimmedFogColor;
+        RenderSettings.fogDensity = dimmedFogDensity;
+
+        Camera mainCamera = Camera.main;
+        if (mainCamera != null)
+        {
+            mainCamera.clearFlags = CameraClearFlags.SolidColor;
+            mainCamera.backgroundColor = dimmedFogColor;
+        }
+
+        foreach (MeshRenderer meshRenderer in FindObjectsByType<MeshRenderer>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+            foreach (Material material in meshRenderer.materials)
+            {
+                if (material != null && material.HasProperty("_WaterColor"))
+                {
+                    material.SetColor("_WaterColor", dimmedWaterColor);
+                    material.SetColor("_FoamColor", dimmedWaterColor);
+                }
+            }
+        }
     }
 
     private void HandleSnapTurnInput()

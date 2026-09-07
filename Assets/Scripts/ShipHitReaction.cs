@@ -23,7 +23,8 @@ public class ShipHitReaction : MonoBehaviour
     [SerializeField] private float sinkDistance = 300f;
     [SerializeField] private float sinkSpeed = 5f;
     [SerializeField] private bool rotateWhileSinking = true;
-    [SerializeField] private Vector3 sinkingRotationPerSecond = new Vector3(0f, 0f, 5f);
+    [SerializeField] private Vector3 sinkingRotationPerSecond = new Vector3(0f, 0f, 1.5f);
+    [SerializeField] private float maxSinkingRotationDegrees = 15f;
 
     private int hitCount;
     private bool isSinking;
@@ -162,6 +163,8 @@ public class ShipHitReaction : MonoBehaviour
         Vector3 startPosition = transform.position;
         Vector3 endPosition = startPosition + Vector3.down * sinkDistance;
 
+        float rotatedDegrees = 0f;
+
         while (Vector3.Distance(transform.position, endPosition) > 0.05f)
         {
             transform.position = Vector3.MoveTowards(
@@ -170,9 +173,16 @@ public class ShipHitReaction : MonoBehaviour
                 sinkSpeed * Time.deltaTime
             );
 
-            if (rotateWhileSinking)
+            if (rotateWhileSinking && rotatedDegrees < maxSinkingRotationDegrees)
             {
-                transform.Rotate(sinkingRotationPerSecond * Time.deltaTime, Space.Self);
+                Vector3 rotationStep = sinkingRotationPerSecond * Time.deltaTime;
+                float stepMagnitude = rotationStep.magnitude;
+
+                if (stepMagnitude > 0f && rotatedDegrees + stepMagnitude > maxSinkingRotationDegrees)
+                    rotationStep *= (maxSinkingRotationDegrees - rotatedDegrees) / stepMagnitude;
+
+                transform.Rotate(rotationStep, Space.Self);
+                rotatedDegrees += rotationStep.magnitude;
             }
 
             yield return null;
