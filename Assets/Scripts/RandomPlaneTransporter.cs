@@ -190,6 +190,9 @@ public class RandomPlaneTransporter : MonoBehaviour
                 if (inputManager.difficultMode)
                 {
                     DimAmbientLight();
+
+                    if (inputManager.brokenPeriscope != null)
+                        inputManager.brokenPeriscope.SetActive(true);
                 }
                 else
                 {

@@ -10,6 +10,9 @@ public class DebugKeyboardControls : MonoBehaviour
     [Min(1)]
     private int resolutionMultiplier = 3;
 
+    private const int ScreenshotBaseWidth = 1080;
+    private const int ScreenshotBaseHeight = 1080;
+
     [SerializeField] private UnityEvent onFireDecoy;
 
     [SerializeField] private UnityEvent onForceWin;
@@ -24,9 +27,9 @@ public class DebugKeyboardControls : MonoBehaviour
 
     private void Update()
     {
-#if UNITY_ANDROID
-        // Do nothing on Android, as we don't want to handle keyboard input there
-#elif UNITY_STANDALONE_WIN
+#if UNITY_ANDROID && !UNITY_EDITOR
+        // Do nothing on an actual on-device Android/Quest build, as we don't want to handle keyboard input there
+#elif UNITY_STANDALONE_WIN || UNITY_EDITOR
         // Fire left torpedo
         if (Keyboard.current.rKey.wasPressedThisFrame)
         {
@@ -86,6 +89,35 @@ public class DebugKeyboardControls : MonoBehaviour
 
     public void TakeScreenshot()
     {
+        Camera camera = Camera.main;
+        if (camera == null)
+        {
+            Debug.LogWarning("TakeScreenshot: no main camera found.");
+            return;
+        }
+
+        int width = ScreenshotBaseWidth * resolutionMultiplier;
+        int height = ScreenshotBaseHeight * resolutionMultiplier;
+
+        RenderTexture renderTexture = new RenderTexture(width, height, 24);
+        RenderTexture previousTargetTexture = camera.targetTexture;
+        RenderTexture previousActive = RenderTexture.active;
+        StereoTargetEyeMask previousStereoTargetEye = camera.stereoTargetEye;
+
+        camera.stereoTargetEye = StereoTargetEyeMask.None;
+        camera.targetTexture = renderTexture;
+        camera.Render();
+
+        RenderTexture.active = renderTexture;
+        Texture2D screenshot = new Texture2D(width, height, TextureFormat.RGB24, false);
+        screenshot.ReadPixels(new Rect(0, 0, width, height), 0, 0);
+        screenshot.Apply();
+
+        camera.targetTexture = previousTargetTexture;
+        camera.stereoTargetEye = previousStereoTargetEye;
+        RenderTexture.active = previousActive;
+        Destroy(renderTexture);
+
         string folder = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
             "SubmarineSimulatorScreenshots");
@@ -96,8 +128,9 @@ public class DebugKeyboardControls : MonoBehaviour
         string filename = $"SubmarineScreenshot_{timestamp}.png";
         string fullPath = Path.Combine(folder, filename);
 
-        ScreenCapture.CaptureScreenshot(fullPath, resolutionMultiplier);
+        File.WriteAllBytes(fullPath, screenshot.EncodeToPNG());
+        Destroy(screenshot);
 
-        Debug.Log($"Screenshot requested: {fullPath}");
+        Debug.Log($"Screenshot saved: {fullPath}");
     }
 }

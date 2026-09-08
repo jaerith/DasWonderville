@@ -23,6 +23,7 @@ public class InputManager : MonoBehaviour
     [Header("HUD")]
     [SerializeField] public GameObject workingSonarScope;
     [SerializeField] public GameObject brokenSonarScope;
+    [SerializeField] public GameObject brokenPeriscope;
 
     [Header("Ambient Lighting")]
     [SerializeField] private float dimmedAmbientIntensity = 0.02f;
