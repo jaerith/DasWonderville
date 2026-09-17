@@ -5399,6 +5399,59 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!1 &510541053
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 510541054}
+  - component: {fileID: 510541055}
+  m_Layer: 0
+  m_Name: Leviathan
+  m_TagString: Monster
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &510541054
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 510541053}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0.9152095, z: 0, w: 0.4029785}
+  m_LocalPosition: {x: 467.7488, y: 0.57857513, z: 385.64737}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 972411835}
+  m_Father: {fileID: 1509819622}
+  m_LocalEulerAnglesHint: {x: 0, y: -132.471, z: 0}
+--- !u!114 &510541055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 510541053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aec3859ece37c3447bf70e8b4a2bf256, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShipMover
+  useLocalBow: 1
+  worldBowDirection: {x: 0, y: 0, z: 1}
+  forwardSpeed: 4
+  lateralDriftSpeed: 0.25
+  driftDirection: 0.2
+  addDriftNoise: 0
+  driftNoiseStrength: 0.1
+  driftNoiseSpeed: 0.5
 --- !u!1 &526560058
 GameObject:
   m_ObjectHideFlags: 0
@@ -10945,6 +10998,68 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad88ba219a4c9034e910b9bbacf540d9, type: 3}
+--- !u!1001 &972411834
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 510541054}
+    m_Modifications:
+    - target: {fileID: 4973278865600693244, guid: a2dcd9916d302e549b90bd07d3d0ab11, type: 3}
+      propertyPath: m_Name
+      value: PF_Leviathan
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670776647253859189, guid: a2dcd9916d302e549b90bd07d3d0ab11, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 43.449
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670776647253859189, guid: a2dcd9916d302e549b90bd07d3d0ab11, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 10.321588
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670776647253859189, guid: a2dcd9916d302e549b90bd07d3d0ab11, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 59.203876
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670776647253859189, guid: a2dcd9916d302e549b90bd07d3d0ab11, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.65612096
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670776647253859189, guid: a2dcd9916d302e549b90bd07d3d0ab11, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.14022806
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670776647253859189, guid: a2dcd9916d302e549b90bd07d3d0ab11, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.73074526
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670776647253859189, guid: a2dcd9916d302e549b90bd07d3d0ab11, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.12590785
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670776647253859189, guid: a2dcd9916d302e549b90bd07d3d0ab11, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670776647253859189, guid: a2dcd9916d302e549b90bd07d3d0ab11, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 96.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670776647253859189, guid: a2dcd9916d302e549b90bd07d3d0ab11, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -21.726
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a2dcd9916d302e549b90bd07d3d0ab11, type: 3}
+--- !u!4 &972411835 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5670776647253859189, guid: a2dcd9916d302e549b90bd07d3d0ab11, type: 3}
+  m_PrefabInstance: {fileID: 972411834}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &998093435
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17582,6 +17697,9 @@ MonoBehaviour:
   - tag: SonarDecoy
     color: {r: 0.13171947, g: 0.754717, b: 0.14371079, a: 0}
     blipSize: 8
+  - tag: Monster
+    color: {r: 1, g: 0, b: 1, a: 1}
+    blipSize: 21
   blipContainer: {fileID: 1251692237}
   blipContainerRadius: 800
 --- !u!114 &1497391245
@@ -17763,7 +17881,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1509819622}
   m_Layer: 0
-  m_Name: EnemyShips
+  m_Name: Enemies
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17795,6 +17913,7 @@ Transform:
   - {fileID: 304173685}
   - {fileID: 544012227}
   - {fileID: 1281679398}
+  - {fileID: 510541054}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1511120205

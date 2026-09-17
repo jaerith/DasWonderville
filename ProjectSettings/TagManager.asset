@@ -9,6 +9,7 @@ TagManager:
   - Hunter
   - SonarDecoy
   - DepthCharge
+  - Monster
   layers:
   - Default
   - TransparentFX
