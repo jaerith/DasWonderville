@@ -5408,7 +5408,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 510541054}
+  - component: {fileID: 510541058}
+  - component: {fileID: 510541057}
   - component: {fileID: 510541055}
+  - component: {fileID: 510541056}
+  - component: {fileID: 510541059}
   m_Layer: 0
   m_Name: Leviathan
   m_TagString: Monster
@@ -5446,12 +5450,91 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShipMover
   useLocalBow: 1
   worldBowDirection: {x: 0, y: 0, z: 1}
-  forwardSpeed: 4
-  lateralDriftSpeed: 0.25
+  forwardSpeed: 12
+  lateralDriftSpeed: 2
   driftDirection: 0.2
   addDriftNoise: 0
   driftNoiseStrength: 0.1
   driftNoiseSpeed: 0.5
+--- !u!114 &510541056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 510541053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccfa1c5052235e84fa04d8536765c006, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RandomPlacementBehavior
+  randomizePositionOnStart: 1
+  cornerA: {fileID: 419206629}
+  cornerB: {fileID: 599008535}
+  cornerC: {fileID: 1985759513}
+  cornerD: {fileID: 780275625}
+  player: {fileID: 1193809377}
+--- !u!54 &510541057
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 510541053}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &510541058
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 510541053}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 32.873207, y: 29.941563, z: 95.93287}
+  m_Center: {x: 41.66007, y: 7.3083854, z: 21.108503}
+--- !u!114 &510541059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 510541053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a24f357c120934e4dabbec8cf60b91f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterBehavior
+  monsterSound: {fileID: 8300000, guid: 7350099225a1d104496d236aa2faa41a, type: 3}
 --- !u!1 &526560058
 GameObject:
   m_ObjectHideFlags: 0
@@ -17699,7 +17782,7 @@ MonoBehaviour:
     blipSize: 8
   - tag: Monster
     color: {r: 1, g: 0, b: 1, a: 1}
-    blipSize: 21
+    blipSize: 24
   blipContainer: {fileID: 1251692237}
   blipContainerRadius: 800
 --- !u!114 &1497391245
@@ -19190,6 +19273,7 @@ GameObject:
   - component: {fileID: 1646953905}
   - component: {fileID: 1646953906}
   - component: {fileID: 1646953907}
+  - component: {fileID: 1646953908}
   m_Layer: 0
   m_Name: InputManager
   m_TagString: Untagged
@@ -19296,7 +19380,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  difficultMode: 0
+  difficultMode: 1
   workingSonarScope: {fileID: 1497391242}
   brokenSonarScope: {fileID: 450931142}
   brokenPeriscope: {fileID: 1115002344}
@@ -19587,6 +19671,21 @@ MonoBehaviour:
   detectionRadius: 120
   maxPingInterval: 1.5
   minPingInterval: 0.25
+--- !u!114 &1646953908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1646953901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c0574cfed29ed24facb2ae9bf966d33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TemporaryObjectFactory
+  objectToSpawn: {fileID: 510541053}
+  maxWaitSeconds: 120
+  lifetimeSeconds: 90
 --- !u!1001 &1655627872
 PrefabInstance:
   m_ObjectHideFlags: 0
