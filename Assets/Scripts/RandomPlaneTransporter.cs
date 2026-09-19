@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RandomPlaneTransporter : MonoBehaviour
@@ -99,7 +100,15 @@ public class RandomPlaneTransporter : MonoBehaviour
 
     private bool IsHunterNearby()
     {
-        GameObject[] hunters = GameObject.FindGameObjectsWithTag("Hunter");
+        List<GameObject> hunterList = new List<GameObject>();
+
+        foreach (GameObject ship in GameObject.FindGameObjectsWithTag("Ship"))
+        {
+            if (ship.GetComponent<EnemyHunterBehavior>() != null)
+                hunterList.Add(ship);
+        }
+
+        GameObject[] hunters = hunterList.ToArray();
         if (hunters.Length == 0)
             return false;
 

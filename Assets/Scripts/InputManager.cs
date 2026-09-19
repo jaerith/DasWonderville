@@ -86,6 +86,8 @@ public class InputManager : MonoBehaviour
     private float fireWindowStartTime = float.MinValue;
     private float lastEscapeTime = float.MinValue;
 
+    private TemporaryObjectFactory monsterFactory;
+
     public float TorpedoReloadSecondsRemaining
     {
         get
@@ -157,6 +159,20 @@ public class InputManager : MonoBehaviour
 
     private void Awake()
     {
+    }
+
+    private void Start()
+    {
+        if (difficultMode)
+        {
+            Debug.Log("Creating monster factory for difficult mode.");
+
+            if (this.GetComponent<TemporaryObjectFactory>() != null)
+            {
+                var monsterFactory = this.GetComponent<TemporaryObjectFactory>();
+                monsterFactory.CycleSpawn();
+            }
+        }
     }
 
     private void Update()
