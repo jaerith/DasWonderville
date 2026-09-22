@@ -17,6 +17,7 @@ public class MonsterBehavior : MonoBehaviour
                 audioSource = gameObject.AddComponent<AudioSource>();
             }
             audioSource.clip = monsterSound;
+            audioSource.pitch = 0.5f;
             audioSource.loop = true;
             audioSource.Play();
         }

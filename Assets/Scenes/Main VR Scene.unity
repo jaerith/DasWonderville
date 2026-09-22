@@ -5429,7 +5429,7 @@ Transform:
   m_GameObject: {fileID: 510541053}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.9152095, z: 0, w: 0.4029785}
-  m_LocalPosition: {x: 467.7488, y: 0.57857513, z: 385.64737}
+  m_LocalPosition: {x: 467.7488, y: -3.7, z: 385.64737}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5450,7 +5450,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShipMover
   useLocalBow: 1
   worldBowDirection: {x: 0, y: 0, z: 1}
-  forwardSpeed: 12
+  forwardSpeed: 15
   lateralDriftSpeed: 2
   driftDirection: 0.2
   addDriftNoise: 0
@@ -5469,6 +5469,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RandomPlacementBehavior
   randomizePositionOnStart: 1
+  offsetYAfterPlacement: -12
   cornerA: {fileID: 419206629}
   cornerB: {fileID: 599008535}
   cornerC: {fileID: 1985759513}
@@ -19684,8 +19685,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TemporaryObjectFactory
   objectToSpawn: {fileID: 510541053}
-  maxWaitSeconds: 120
+  maxWaitSeconds: 3
   lifetimeSeconds: 90
+  player: {fileID: 1193809377}
+  aimRotationOffsetEuler: {x: 0, y: -10, z: 0}
 --- !u!1001 &1655627872
 PrefabInstance:
   m_ObjectHideFlags: 0

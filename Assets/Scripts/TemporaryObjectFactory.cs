@@ -12,6 +12,18 @@ public class TemporaryObjectFactory : MonoBehaviour
     [Tooltip("How long each spawned copy exists before it is destroyed.")]
     [SerializeField] private float lifetimeSeconds = 20.0f;
 
+    [Tooltip("Spawned objects are aimed at this transform (usually the Main Camera).")]
+    [SerializeField] private Transform player;
+
+    [Tooltip("Use this if the spawned model's front is not aligned with local +Z (e.g. 0, 90, 0 or 0, -90, 0).")]
+    [SerializeField] private Vector3 aimRotationOffsetEuler = Vector3.zero;
+
+    public Transform Player
+    {
+        get => player;
+        set => player = value;
+    }
+
     public float MaxWaitSeconds
     {
         get => maxWaitSeconds;
@@ -43,6 +55,16 @@ public class TemporaryObjectFactory : MonoBehaviour
 
             GameObject spawned = Instantiate(providedGameObject, transform.position, transform.rotation);
             spawned.SetActive(true);
+
+            if (player == null)
+            {
+                Debug.LogWarning("TemporaryObjectFactory: Player is not assigned, so (" + spawned.name + ") was not aimed.");
+            }
+            else
+            {
+                spawned.transform.LookAt(player);
+                spawned.transform.rotation *= Quaternion.Euler(aimRotationOffsetEuler);
+            }
 
             yield return new WaitForSeconds(Mathf.Max(0f, lifetimeSeconds));
 

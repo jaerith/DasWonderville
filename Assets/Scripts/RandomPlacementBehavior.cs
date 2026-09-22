@@ -6,6 +6,7 @@ public class RandomPlacementBehavior : MonoBehaviour
 
     [Header("Random Placement")]
     [SerializeField] private bool randomizePositionOnStart = true;
+    [SerializeField] private float offsetYAfterPlacement = 0f;
     [SerializeField] private Transform cornerA;
     [SerializeField] private Transform cornerB;
     [SerializeField] private Transform cornerC;
@@ -14,8 +15,13 @@ public class RandomPlacementBehavior : MonoBehaviour
     [Header("Facing")]
     [SerializeField] private Transform player;
 
+    private float startingY;
+
     private void Awake()
     {
+        // Captured once so repeated relocations don't keep stacking the Y offset.
+        startingY = transform.position.y;
+
         if (randomizePositionOnStart)
             RelocateWithinPlaneCorners();
     }
@@ -37,7 +43,7 @@ public class RandomPlacementBehavior : MonoBehaviour
 
         Vector3 randomPosition = Vector3.Lerp(bottomEdge, topEdge, v);
 
-        randomPosition.y = transform.position.y;
+        randomPosition.y = startingY + offsetYAfterPlacement;
         transform.position = randomPosition;
 
         // A Rigidbody caches its own position separately from the Transform, so
