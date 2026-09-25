@@ -594,6 +594,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 390892052708758365, guid: b7e206796fe4e6f4fad11c90f415b656, type: 3}
   m_PrefabInstance: {fileID: 52612257}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &52612259 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5981091503451693056, guid: b7e206796fe4e6f4fad11c90f415b656, type: 3}
+  m_PrefabInstance: {fileID: 52612257}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &53365558
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19501,6 +19506,18 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: -8525429354371678379, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  difficultModeAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Difficult Mode
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: c93e9fdd-24b8-42ad-a533-e92b91571f7e
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -2524354804938687746, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   scopeEvent:
     m_PersistentCalls:
       m_Calls:
@@ -19516,10 +19533,11 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  difficultMode: 1
+  difficultMode: 0
   workingSonarScope: {fileID: 1497391242}
   brokenSonarScope: {fileID: 450931142}
   brokenPeriscope: {fileID: 1115002344}
+  difficultModeIndicator: {fileID: 52612259}
   dimmedAmbientIntensity: 0.02
   dimmedDirectionalLightIntensity: 0.02
   dimmedFogColor: {r: 0.054734778, g: 0.054734774, b: 0.09433961, a: 1}
@@ -19820,8 +19838,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TemporaryObjectFactory
   objectToSpawn: {fileID: 510541053}
-  maxWaitSeconds: 3
-  lifetimeSeconds: 90
+  maxWaitSeconds: 150
+  lifetimeSeconds: 60
   player: {fileID: 1193809377}
   aimRotationOffsetEuler: {x: 0, y: -10, z: 0}
 --- !u!1001 &1655627872

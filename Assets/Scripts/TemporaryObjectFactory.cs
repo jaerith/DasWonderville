@@ -63,6 +63,16 @@ public class TemporaryObjectFactory : MonoBehaviour
             else
             {
                 spawned.transform.LookAt(player);
+
+                // Strip pitch/roll so the spawn heading is level (yaw only).
+                // Otherwise, aiming at a player above/below the spawn point tilts
+                // transform.forward, and ShipMover only ever yaws afterward, so it
+                // would climb/dive forever along that initial tilt.
+                Vector3 levelEuler = spawned.transform.rotation.eulerAngles;
+                levelEuler.x = 0f;
+                levelEuler.z = 0f;
+                spawned.transform.rotation = Quaternion.Euler(levelEuler);
+
                 spawned.transform.rotation *= Quaternion.Euler(aimRotationOffsetEuler);
             }
 

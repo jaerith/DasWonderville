@@ -14,6 +14,7 @@ public class InputManager : MonoBehaviour
     [SerializeField] private InputActionProperty escapeAction;
     [SerializeField] private InputActionProperty scopeAction;
     [SerializeField] private InputActionProperty snapTurnAction;
+    [SerializeField] private InputActionProperty difficultModeAction;
 
     [Header("Events")]
     [SerializeField] private UnityEvent scopeEvent;
@@ -24,6 +25,7 @@ public class InputManager : MonoBehaviour
     [SerializeField] public GameObject workingSonarScope;
     [SerializeField] public GameObject brokenSonarScope;
     [SerializeField] public GameObject brokenPeriscope;
+    [SerializeField] public GameObject difficultModeIndicator;
 
     [Header("Ambient Lighting")]
     [SerializeField] private float dimmedAmbientIntensity = 0.02f;
@@ -141,6 +143,7 @@ public class InputManager : MonoBehaviour
         escapeAction.action?.Enable();
         scopeAction.action?.Enable();
         snapTurnAction.action?.Enable();
+        difficultModeAction.action?.Enable();
 
         InvokeRepeating(nameof(CheckForGameCompletion), gameCompletionCheckInterval, gameCompletionCheckInterval);
     }
@@ -153,6 +156,7 @@ public class InputManager : MonoBehaviour
         escapeAction.action?.Disable();
         scopeAction.action?.Disable();
         snapTurnAction.action?.Disable();
+        difficultModeAction.action?.Disable();
 
         CancelInvoke(nameof(CheckForGameCompletion));
     }
@@ -163,9 +167,11 @@ public class InputManager : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log("DEBUG: Difficult Mode now set to (" + difficultMode + ")");
+
         if (difficultMode)
         {
-            Debug.Log("Creating monster factory for difficult mode.");
+            Debug.Log("Start() => Creating monster factory for difficult mode.");
 
             if (this.GetComponent<TemporaryObjectFactory>() != null)
             {
@@ -183,6 +189,7 @@ public class InputManager : MonoBehaviour
         HandleEscape();
         HandleScope();
         HandleSnapTurnInput();
+        HandleDifficultyToggle();
     }
 
     public void ForceWin()
@@ -201,6 +208,34 @@ public class InputManager : MonoBehaviour
                 continue;
 
             hitReaction.DestroyShip();
+        }
+    }
+
+    private void HandleDifficultyToggle()
+    {
+        float value = difficultModeAction.action != null
+            ? difficultModeAction.action.ReadValue<float>()
+            : 0f;
+
+        bool isPressed = value > 0f;
+
+        if (isPressed)
+        {
+            if (!difficultMode)
+            {
+                difficultMode = true;
+                Debug.Log("DEBUG: Difficult Mode now set to (" + difficultMode + ")");
+
+                difficultModeIndicator.SetActive(difficultMode);
+
+                Debug.Log("HandleDifficultyToggle() => Creating monster factory for difficult mode.");
+
+                if (this.GetComponent<TemporaryObjectFactory>() != null)
+                {
+                    var monsterFactory = this.GetComponent<TemporaryObjectFactory>();
+                    monsterFactory.CycleSpawn();
+                }
+            }
         }
     }
 
